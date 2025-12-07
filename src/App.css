@@ -18,6 +18,14 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.gradient-text {
+  background: linear-gradient(90deg, #7c3aed, #ec4899, #f43f5e);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
