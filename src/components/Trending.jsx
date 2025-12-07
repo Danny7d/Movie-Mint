@@ -43,12 +43,12 @@ function Trending() {
         {movies.map((movie) => (
           <div key={movie.id} className="">
             <img
-              className="w-96"
+              className="w-48 rounded-md  cursor-pointer"
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
             />
-            <div>
-              <h2>{movie.title}</h2>
+            <div className="w-48">
+              <h2 tex>{movie.title}</h2>
               <p>{movie.release_date}</p>
             </div>
           </div>
