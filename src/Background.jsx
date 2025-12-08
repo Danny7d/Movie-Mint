@@ -9,6 +9,7 @@ const BackgroundPic = [];
 function Background() {
   const [pic, setPic] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,8 +37,12 @@ function Background() {
     if (pic.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % pic.length);
-    }, 1000);
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % pic.length);
+        setIsTransitioning(false);
+      }, 500);
+    }, 5000);
     return () => clearInterval(interval);
   }, [pic]);
 
@@ -49,32 +54,32 @@ function Background() {
     );
   }
 
-  const currentMovie = pic[currentIndex];
-
   return (
-    <div>
+    <div className="">
       <div
-        className="relative h-[80vh] w-full flex items-end mt-10 text-white overflow-hidden"
+        className={`relative h-[80vh] w-full flex items-end mt-10 -mb-48 text-white overflow-hidden transition-opacity duration-500 ${
+          isTransitioning ? "opacity-0" : "opacity-100"
+        }`}
         style={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/w500${currentMovie.backdrop_path})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/original${pic[currentIndex].backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: "20px",
         }}
       >
-        <div className="absolute inset-0 "></div>
-        <div className="relative z-10">
-          <h1 className="text-3xl font-bold text-white">
-            Title: {currentMovie.title}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+        <div
+          className={`relative z-10 pb-8 px-8 transition-all duration-500 ${
+            isTransitioning
+              ? "opacity-0 transform translate-y-4"
+              : "opacity-100 transform translate-y-0"
+          }`}
+        >
+          <h1 className="text-4xl font-bold text-white drop-shadow-2xl">
+            {pic[currentIndex].title}
           </h1>
-          <p
-            className="text-lg font-semibold text-white w-96 mt-2"
-            style={{
-              textShadow:
-                "2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8)",
-            }}
-          >
-            Overview: {currentMovie.overview}
+          <p className="text-lg font-semibold text-white w-96 mt-2 drop-shadow-2xl">
+            {pic[currentIndex].overview}
           </p>
         </div>
       </div>

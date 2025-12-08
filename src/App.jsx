@@ -6,9 +6,9 @@ import Popular from "./components/Popular";
 import Background from "./Background";
 import "./App.css";
 
-function App({ style }) {
+function App() {
   return (
-    <div style={style}>
+    <div className="bg-black">
       <div className="absolute top-4 left-4">
         <Link to="/" className="text-3xl font-bold gradient-text">
           MovieMint

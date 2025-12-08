@@ -49,8 +49,12 @@ function Popular() {
               alt={movie.title}
             />
             <div className="w-48">
-              <h2 tex>{movie.title}</h2>
-              <p>{movie.release_date}</p>
+              <h2 className="mt-3 text-white backdrop-blur-sm">
+                {movie.title}
+              </h2>
+              <p className="text-white backdrop-blur-sm">
+                {movie.release_date}
+              </p>
             </div>
           </div>
         ))}
