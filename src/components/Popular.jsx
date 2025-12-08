@@ -4,15 +4,15 @@ import "../App.css";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-function Trending() {
+function Popular() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function GetTrending() {
+    async function GetPopular() {
       try {
         const response = await axios.get(
-          "https://api.themoviedb.org/3/trending/movie/day",
+          "https://api.themoviedb.org/3/discover/movie",
           { params: { api_key: API_KEY } }
         );
         setMovies(response.data.results);
@@ -23,7 +23,7 @@ function Trending() {
       }
     }
     if (API_KEY) {
-      GetTrending();
+      GetPopular();
     }
   }, []);
 
@@ -33,7 +33,7 @@ function Trending() {
 
   return (
     <div>
-      <h1 className="p-5 text-2xl font-bold gradient-text">Trending</h1>
+      <h1 className="p-5 text-2xl font-bold gradient-text">Popular</h1>
       <div
         className="flex gap-5 overflow-x-auto"
         style={{
@@ -45,7 +45,7 @@ function Trending() {
           <div key={movie.id} className="">
             <img
               className="w-48 rounded-md  cursor-pointer hover:scale-110 transition duration-300"
-              src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
             />
             <div className="w-48">
@@ -59,4 +59,4 @@ function Trending() {
   );
 }
 
-export default Trending;
+export default Popular;
