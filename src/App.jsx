@@ -1,27 +1,42 @@
-import { Link } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
 import Searchbar from "./components/Searchbar";
 import SuggestionSection from "./components/SuggestionSection";
 import Trending from "./components/Trending";
 import Popular from "./components/Popular";
 import Background from "./Background";
+import MovieDetails from "./components/MovieDetails";
 import "./App.css";
+
+function Home() {
+  return (
+    <>
+      <Background />
+      <Trending />
+      <Popular />
+    </>
+  );
+}
 
 function App() {
   return (
-    <div className="bg-black">
-      <div className="absolute top-4 left-4">
-        <Link to="/" className="text-3xl font-bold gradient-text">
+    <div className="bg-black min-h-screen">
+      {/* Logo */}
+      <div className="absolute top-4 left-4 right-4 flex justify-center md:justify-start z-50">
+        <Link to="/" className="text-3xl font-bold gradient-text md:text-4xl">
           MovieMint
         </Link>
       </div>
-      <div className="flex justify-center pt-4">
+
+      {/* Search */}
+      <div className="flex justify-center pt-4 z-50 relative">
         <Searchbar />
       </div>
-      <Background />
-      <nav></nav>
-      <SuggestionSection />
-      <Trending />
-      <Popular />
+
+      {/* ROUTES */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/movie/:id" element={<MovieDetails />} />
+      </Routes>
     </div>
   );
 }

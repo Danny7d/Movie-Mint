@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import axios from "axios";
 import "../App.css";
 
@@ -43,18 +45,17 @@ function Popular() {
       >
         {movies.map((movie) => (
           <div key={movie.id} className="">
-            <img
-              className="w-48 rounded-md  cursor-pointer hover:scale-110 transition duration-300"
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-            />
-            <div className="w-48">
-              <h2 className="mt-3 text-white backdrop-blur-sm">
+            <Link to={`/movie/${movie.id}`}>
+              <img
+                className="m-4 w-48 rounded-md  cursor-pointer hover:scale-110 transition duration-300"
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+              />
+            </Link>
+            <div className="w-48 sm">
+              <h2 className="mt-3 text-white backdrop-blur-sm text-center">
                 {movie.title}
               </h2>
-              <p className="text-white backdrop-blur-sm">
-                {movie.release_date}
-              </p>
             </div>
           </div>
         ))}

@@ -67,7 +67,7 @@ function Background() {
           borderRadius: "20px",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
         <div
           className={`relative z-10 pb-8 px-8 transition-all duration-500 ${
             isTransitioning

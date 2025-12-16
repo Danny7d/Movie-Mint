@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
 
@@ -32,7 +33,7 @@ function Trending() {
   }
 
   return (
-    <div className="">
+    <div className="mt-72">
       <h1 className="p-5 text-2xl font-bold gradient-text">Trending</h1>
       <div
         className="flex gap-5 overflow-x-auto"
@@ -43,14 +44,15 @@ function Trending() {
       >
         {movies.map((movie) => (
           <div key={movie.id} className="">
-            <img
-              className="w-48 rounded-md cursor-pointer hover:scale-110 transition duration-300 rounded-t-md"
-              src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-              alt={movie.title}
-            />
-            <div className="w-48 mt-9">
-              <h2 className="text-white">{movie.title}</h2>
-              <p className="text-white">{movie.release_date}</p>
+            <Link to={`/movie/${movie.id}`}>
+              <img
+                className="m-4 w-48 rounded-md cursor-pointer hover:scale-110 transition duration-300 rounded-t-md"
+                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                alt={movie.title}
+              />
+            </Link>
+            <div className="w-48 mt-3">
+              <h2 className="text-white text-center">{movie.title}</h2>
             </div>
           </div>
         ))}
