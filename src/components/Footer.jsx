@@ -2,7 +2,13 @@ import React from "react";
 
 function Footer() {
   return (
-    <div className="p-6 bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 border-t border-purple-500/30">
+    <div
+      className="p-6 border-t"
+      style={{
+        background: "linear-gradient(to right, #111827, #581c87, #111827)",
+        borderTop: "1px solid rgba(168, 85, 247, 0.3)",
+      }}
+    >
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-center md:text-left">
@@ -38,7 +44,10 @@ function Footer() {
             </a>
           </div>
         </div>
-        <div className="mt-6 pt-4 border-t border-purple-500/30 text-center">
+        <div
+          className="mt-6 pt-4 text-center"
+          style={{ borderTop: "1px solid rgba(168, 85, 247, 0.3)" }}
+        >
           <p className="text-purple-200 text-xs">
             © 2025 MovieMint. All rights reserved.
           </p>
