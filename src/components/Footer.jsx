@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
   return (
     <div
-      className="p-6 border-t"
+      className="p-6 mt-32 border-t"
       style={{
         background: "linear-gradient(to right, #111827, #581c87, #111827)",
         borderTop: "1px solid rgba(168, 85, 247, 0.3)",

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="url(#grad1)" stroke="#fff" stroke-width="1"/>
+  
+  <!-- Film strip design -->
+  <rect x="6" y="8" width="20" height="16" fill="#1f2937" rx="2"/>
+  
+  <!-- Film holes -->
+  <rect x="8" y="10" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="12" y="10" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="16" y="10" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="20" y="10" width="2" height="2" fill="#8b5cf6"/>
+  
+  <rect x="8" y="20" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="12" y="20" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="16" y="20" width="2" height="2" fill="#8b5cf6"/>
+  <rect x="20" y="20" width="2" height="2" fill="#8b5cf6"/>
+  
+  <!-- Play button -->
+  <polygon points="14,14 14,18 18,16" fill="#fff"/>
+  
+  <!-- M letter (for MovieMint) -->
+  <text x="16" y="28" font-family="Arial, sans-serif" font-size="6" font-weight="bold" fill="#fff" text-anchor="middle">M</text>
+</svg>
