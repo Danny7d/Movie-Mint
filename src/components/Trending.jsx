@@ -29,7 +29,17 @@ function Trending() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex gap-5 p-5">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div key={index} className="w-48">
+            <div className="w-48 h-72 bg-gray-700 rounded-md animate-pulse"></div>
+            <div className="h-4 bg-gray-600 mt-3 rounded animate-pulse"></div>
+            <div className="h-3 bg-gray-600 mt-2 rounded animate-pulse"></div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (

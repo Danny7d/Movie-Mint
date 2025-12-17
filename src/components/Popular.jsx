@@ -48,7 +48,7 @@ function Popular() {
             <Link to={`/movie/${movie.id}`}>
               <img
                 className="m-4 w-48 rounded-md  cursor-pointer hover:scale-110 transition duration-300"
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                 alt={movie.title}
               />
             </Link>
