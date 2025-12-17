@@ -20,7 +20,7 @@ function Home() {
 
 function App() {
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-black min-h-screen flex flex-col">
       <div className="absolute top-4 left-4 right-4 flex justify-center md:justify-start z-50">
         <Link to="/" className="text-3xl font-bold gradient-text md:text-4xl">
           MovieMint
@@ -31,13 +31,14 @@ function App() {
         <Searchbar />
       </div>
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movie/:id" element={<MovieDetails />} />
-      </Routes>
-      <div className="bg-blue-800">
-        <Footer />
-      </div>
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movie/:id" element={<MovieDetails />} />
+        </Routes>
+      </main>
+
+      <Footer />
     </div>
   );
 }
