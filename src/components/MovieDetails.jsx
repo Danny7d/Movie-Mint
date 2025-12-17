@@ -61,6 +61,21 @@ function MovieDetails() {
     }
   }, [showTrailer]);
 
+  useEffect(() => {
+    function handleEsc(e) {
+      if (e.key === "Escape") {
+        setShowTrailer(false);
+      }
+    }
+
+    if (showTrailer) {
+      window.addEventListener("keydown", handleEsc);
+      return () => {
+        window.removeEventListener("keydown", handleEsc);
+      };
+    }
+  }, [showTrailer]);
+
   if (!movie) {
     return (
       <div className="min-h-screen bg-gray-900 animate-pulse flex items-end">
