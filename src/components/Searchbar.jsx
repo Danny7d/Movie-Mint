@@ -71,7 +71,7 @@ function Searchbar() {
                   />
                 </Link>
                 <div className="w-48">
-                  <h2 className="text-white mt-2 text-center">{movie.title}</h2>
+                  <h2 className="text-white mt-4 text-center">{movie.title}</h2>
                   <p className="text-white text-center">{movie.release_date}</p>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import Trending from "./components/Trending";
 import Popular from "./components/Popular";
 import Background from "./Background";
 import MovieDetails from "./components/MovieDetails";
+import Footer from "./components/Footer";
 import "./App.css";
 
 function Home() {
@@ -13,6 +14,9 @@ function Home() {
       <Background />
       <Trending />
       <Popular />
+      <div className="bg-blue-800">
+        <Footer />
+      </div>
     </>
   );
 }
