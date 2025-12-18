@@ -25,6 +25,8 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
   display: inline-block;
+  user-select: text;
+  pointer-events: auto;
 }
 
 @keyframes logo-spin {

@@ -57,7 +57,7 @@ function Background() {
   return (
     <div className="">
       <div
-        className={`relative h-[80vh] w-full flex items-end mt-10 -mb-48 text-white overflow-hidden transition-opacity duration-500 ${
+        className={`relative h-[80vh] w-full flex items-end mt-10 -mb-48 text-white overflow-hidden transition-opacity duration-1000 ease-in-out ${
           isTransitioning ? "opacity-0" : "opacity-100"
         }`}
         style={{

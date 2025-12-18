@@ -21,10 +21,18 @@ function Home() {
 function App() {
   return (
     <div className="bg-black min-h-screen flex flex-col">
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 text-center sm:left-4 sm:transform-none md:left-4 md:transform-none lg:left-4 xl:left-4 sm:text-left md:text-left">
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[100] text-center sm:left-4 sm:transform-none md:left-4 md:transform-none lg:left-4 xl:left-4 sm:text-left md:text-left pointer-events-auto">
         <Link
           to="/"
-          className="text-xl font-bold gradient-text md:text-4xl hover:opacity-80 transition-opacity cursor-pointer"
+          className="text-xl font-bold md:text-4xl hover:opacity-80 transition-opacity cursor-pointer inline-block relative z-[110]"
+          style={{
+            textDecoration: "none",
+            background: "linear-gradient(90deg, #7c3aed, #ec4899, #f43f5e)",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            color: "transparent",
+          }}
         >
           MovieMint
         </Link>
