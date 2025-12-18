@@ -78,7 +78,7 @@ function Searchbar() {
             ))}
           </div>
         </div>
-      ) : hasSearched && query.length > 2 ? (
+      ) : hasSearched && query.length === 0 ? (
         <div className="p-5 text-center">
           <h1 className="gradient-text text-2xl mb-4">No results found</h1>
           <p className="text-white mb-2">

@@ -24,6 +24,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  display: inline-block;
 }
 
 @keyframes logo-spin {

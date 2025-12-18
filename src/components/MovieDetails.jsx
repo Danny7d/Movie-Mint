@@ -107,15 +107,17 @@ function MovieDetails() {
         </div>
       </div>
       {trailerKey && (
-        <button
-          className="mt-6 px-4 py-2 md:px-6 md:py-3 bg-red-600 hover:bg-red-700 rounded text-white font-semibold text-sm md:text-base"
-          onClick={() => setShowTrailer(true)}
-        >
-          ▶ Watch Trailer
-        </button>
+        <div className="flex justify-center">
+          <button
+            className="mt-6 px-4 py-2 md:px-6 md:py-3 bg-red-600 hover:bg-red-700 rounded text-white font-semibold text-sm md:text-base justify-center"
+            onClick={() => setShowTrailer(true)}
+          >
+            ▶ Watch Trailer
+          </button>
+        </div>
       )}
-      <div className="p-10 max-w-6xl mx-auto text-white">
-        <h2 className="text-2xl font-bold mb-4">Cast</h2>
+      <div className="p-10 max-w-6xl mx-auto text-white justify-center">
+        <h2 className="text-2xl font-bold mb-4 text-center">Cast</h2>
         <div
           className="flex gap-4 overflow-x-auto"
           style={{

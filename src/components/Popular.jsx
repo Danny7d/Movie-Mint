@@ -34,10 +34,12 @@ function Popular() {
   }
 
   return (
-    <div>
-      <h1 className="p-5 text-2xl font-bold gradient-text">Popular</h1>
+    <div className="text-center mt-12">
+      <h1 className="p-5 text-3xl font-bold gradient-text text-center">
+        Popular
+      </h1>
       <div
-        className="flex gap-5 overflow-x-auto"
+        className="flex gap-5 overflow-x-auto justify-center"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",

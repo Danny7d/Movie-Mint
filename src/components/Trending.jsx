@@ -43,10 +43,12 @@ function Trending() {
   }
 
   return (
-    <div className="mt-72">
-      <h1 className="p-5 text-2xl font-bold gradient-text">Trending</h1>
+    <div className="mt-96 text-center">
+      <h1 className="p-5 text-3xl font-bold gradient-text text-center">
+        Trending
+      </h1>
       <div
-        className="flex gap-5 overflow-x-auto"
+        className="flex gap-5 overflow-x-auto justify-center"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
