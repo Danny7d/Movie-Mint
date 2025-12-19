@@ -43,7 +43,7 @@ function Trending() {
   }
 
   return (
-    <div className="mt-96 text-center">
+    <div className="mt-24 text-center">
       <h1 className="p-5 text-3xl font-bold gradient-text text-center">
         Trending
       </h1>
