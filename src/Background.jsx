@@ -57,14 +57,14 @@ function Background() {
   return (
     <div className="">
       <div
-        className={`relative h-[80vh] w-full flex items-end mt-10 -mb-48 text-white overflow-hidden transition-opacity duration-1000 ease-in-out ${
-          isTransitioning ? "opacity-0" : "opacity-100"
-        }`}
+        className={`relative h-[80vh] w-full flex items-end mt-10 -mb-48 text-white overflow-hidden`}
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/original${pic[currentIndex].backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: "20px",
+          opacity: isTransitioning ? 0 : 1,
+          transition: "opacity 1s ease-in-out",
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
