@@ -48,14 +48,17 @@ function Trending() {
         Trending
       </h1>
       <div
-        className="flex gap-5 overflow-x-auto justify-center"
+        className="flex gap-5 overflow-x-auto px-8"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
         }}
       >
-        {movies.map((movie) => (
-          <div key={movie.id} className="">
+        {movies.map((movie, index) => (
+          <div
+            key={movie.id}
+            className={index === movies.length - 1 ? "mr-8" : ""}
+          >
             <Link to={`/movie/${movie.id}`}>
               <img
                 className="m-4 w-48 rounded-md cursor-pointer hover:scale-110 transition duration-300 rounded-t-md"
