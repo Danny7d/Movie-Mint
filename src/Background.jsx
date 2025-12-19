@@ -55,20 +55,19 @@ function Background() {
   }
 
   return (
-    <div className="">
+    <div className="relative">
       <div
-        className={`relative min-h-screen w-full flex items-end text-white overflow-hidden`}
+        className={`relative h-screen flex items-end text-white overflow-hidden z-10`}
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/original${pic[currentIndex].backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundClip: "border-box",
-          backgroundOrigin: "border-box",
-          backgroundBlendMode: "multiply",
           minHeight: "120vh",
           opacity: isTransitioning ? 0 : 1,
           transition: "opacity 1s ease-in-out",
+          margin: "8px",
+          borderRadius: "20px",
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
