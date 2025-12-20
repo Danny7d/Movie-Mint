@@ -72,13 +72,12 @@ function Searchbar() {
                 </Link>
                 <div className="w-48">
                   <h2 className="text-white mt-4 text-center">{movie.title}</h2>
-                  <p className="text-white text-center">{movie.release_date}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      ) : hasSearched && query.length === 0 ? (
+      ) : hasSearched && results.length === 0 ? (
         <div className="p-5 text-center">
           <h1 className="gradient-text text-2xl mb-4">No results found</h1>
           <p className="text-white mb-2">
