@@ -1,6 +1,6 @@
 import { Link, Routes, Route } from "react-router-dom";
 import Searchbar from "./components/Searchbar";
-import SuggestionSection from "./components/SuggestionSection";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Trending from "./components/Trending";
 import Popular from "./components/Popular";
 import Background from "./Background";
