@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY;
 
 function MovieDetails() {
   const { id } = useParams();
@@ -45,15 +44,12 @@ function MovieDetails() {
         // Fetch ratings from OMDb API using IMDb ID
         if (res.data.imdb_id) {
           try {
-            const omdbRes = await axios.get(`https://www.omdbapi.com/`, {
-              params: {
-                apikey: OMDB_API_KEY,
-                i: res.data.imdb_id,
-              },
-            });
-            setRatings(omdbRes.data);
+            const ratingsRes = await axios.get(
+              `/api/ratings?imdbId=${res.data.imdb_id}`
+            );
+            setRatings(ratingsRes.data);
           } catch (error) {
-            console.error("Error fetching OMDb ratings:", error);
+            console.error("Error fetching ratings:", error);
           }
         }
       } catch (error) {
