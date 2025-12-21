@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
@@ -10,6 +10,26 @@ function Searchbar() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [genres, setGenres] = useState({});
+
+  useEffect(() => {
+    async function fetchGenres() {
+      try {
+        const response = await axios.get(
+          "https://api.themoviedb.org/3/genre/movie/list",
+          { params: { api_key: API_KEY } }
+        );
+        const genreMap = {};
+        response.data.genres.forEach((genre) => {
+          genreMap[genre.id] = genre.name;
+        });
+        setGenres(genreMap);
+      } catch (error) {
+        console.error("Error fetching genres:", error);
+      }
+    }
+    fetchGenres();
+  }, []);
 
   async function searchMovies() {
     if (!query || query.length === 0) return;
@@ -72,6 +92,14 @@ function Searchbar() {
                 </Link>
                 <div className="w-48">
                   <h2 className="text-white mt-4 text-center">{movie.title}</h2>
+                  <p className="mt-2 text-center text-blue-600">
+                    {movie.genre_ids && movie.genre_ids.length > 0
+                      ? movie.genre_ids
+                          .map((id) => genres[id])
+                          .filter(Boolean)
+                          .join(", ")
+                      : "No genre info"}
+                  </p>
                 </div>
               </div>
             ))}

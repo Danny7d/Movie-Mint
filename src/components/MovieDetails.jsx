@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY;
 
 function MovieDetails() {
   const { id } = useParams();
@@ -10,6 +11,7 @@ function MovieDetails() {
   const [cast, setCast] = useState([]);
   const [trailerKey, setTrailerKey] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
+  const [ratings, setRatings] = useState(null);
 
   useEffect(() => {
     async function fetchMovie() {
@@ -39,6 +41,21 @@ function MovieDetails() {
 
         setMovie(res.data);
         setCast(creditsRes.data.cast);
+
+        // Fetch ratings from OMDb API using IMDb ID
+        if (res.data.imdb_id) {
+          try {
+            const omdbRes = await axios.get(`https://www.omdbapi.com/`, {
+              params: {
+                apikey: OMDB_API_KEY,
+                i: res.data.imdb_id,
+              },
+            });
+            setRatings(omdbRes.data);
+          } catch (error) {
+            console.error("Error fetching OMDb ratings:", error);
+          }
+        }
       } catch (error) {
         console.error(error);
       }
@@ -100,12 +117,45 @@ function MovieDetails() {
         <div className="relative z-10 p-10 max-w-4xl text-white">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{movie.title}</h1>
           <p className="text-lg opacity-90 mb-4">{movie.overview}</p>
+          <p className="text-blue-400 mb-2">
+            {movie.genres && movie.genres.length > 0
+              ? movie.genres.map((genre) => genre.name).join(", ")
+              : "No genre info"}
+          </p>
           <p>{movie.charecter}</p>
           <p className="text-sm opacity-70">
             Release date: {movie.release_date}
           </p>
         </div>
       </div>
+
+      {ratings && (
+        <div className="px-10 max-w-4xl">
+          <div className="bg-gray-800 rounded-lg p-4 mb-6">
+            <h3 className="text-white text-lg font-semibold mb-3">Ratings</h3>
+            <div className="flex gap-6 flex-wrap">
+              {ratings.Ratings &&
+                ratings.Ratings.map((rating, index) => (
+                  <div key={index} className="text-white">
+                    <span className="text-gray-400 text-sm">
+                      {rating.Source}:
+                    </span>
+                    <span className="ml-2 font-medium">{rating.Value}</span>
+                  </div>
+                ))}
+              {ratings.imdbRating && (
+                <div className="text-white">
+                  <span className="text-gray-400 text-sm">IMDb:</span>
+                  <span className="ml-2 font-medium">
+                    {ratings.imdbRating}/10
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {trailerKey && (
         <div className="flex justify-center">
           <button
