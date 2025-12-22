@@ -21,7 +21,7 @@ function Background() {
         );
 
         const validMovies = response.data.results.filter(
-          (movie) => movie.backdrop_path && movie.vote_average >= 7
+          (movie) => movie.backdrop_path && movie.vote_average >= 5
         );
         setPic(validMovies);
         setLoading(false);
@@ -78,10 +78,10 @@ function Background() {
               : "opacity-100 transform translate-y-0"
           }`}
         >
-          <h1 className="text-4xl font-bold text-white drop-shadow-2xl">
+          <h1 className="text-2xl md:text-4xl font-bold text-white drop-shadow-2xl">
             {pic[currentIndex].title}
           </h1>
-          <p className="text-lg font-semibold text-white w-96 mt-2 drop-shadow-2xl">
+          <p className="text-sm md:text-xl font-semibold text- mt-2 drop-shadow-2xl">
             {pic[currentIndex].overview}
           </p>
         </div>

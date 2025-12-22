@@ -41,7 +41,6 @@ function MovieDetails() {
         setMovie(res.data);
         setCast(creditsRes.data.cast);
 
-        // Fetch ratings from OMDb API using IMDb ID
         if (res.data.imdb_id) {
           try {
             const ratingsRes = await axios.get(

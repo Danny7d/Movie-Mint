@@ -68,7 +68,7 @@ function Searchbar() {
             }
           }}
           placeholder="Search"
-          className="w-96 p-2 pr-10 border-2 border-gray-500 focus:border-blue-600 focus:outline-none rounded-md bg-transparent text-white"
+          className="w-full md:w-96 justify-center p-2 pr-10 border-2 border-gray-500 focus:border-blue-600 focus:outline-none rounded-md bg-transparent text-white"
         />
         <button
           className="relative right-9 top-1/2 p-1 text-blue-300 hover:text-blue-700"
