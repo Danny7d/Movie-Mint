@@ -6,11 +6,16 @@ import Popular from "./components/Popular";
 import Background from "./Background";
 import MovieDetails from "./components/MovieDetails";
 import Footer from "./components/Footer";
+import Register from "./Register";
 import "./App.css";
 
 function Home() {
   return (
     <>
+      <span className="flex justify-center pt-16 z-50 relative">
+        <Searchbar />
+      </span>
+
       <Background />
       <Trending />
       <Popular />
@@ -38,14 +43,26 @@ function App() {
         </Link>
       </div>
 
-      <div className="flex justify-center pt-16 z-50 relative">
-        <Searchbar />
+      <div className="absolute top-4 right-4 z-[100] flex gap-4">
+        <Link
+          to="/Register"
+          className="text-white hover:text-purple-400 cursor-pointer transition-colors"
+        >
+          Login
+        </Link>
+        <Link
+          to="/Register"
+          className="text-white hover:text-pink-400 cursor-pointer transition-colors"
+        >
+          Sign Up
+        </Link>
       </div>
 
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
+          <Route path="/Register" element={<Register />} />
         </Routes>
       </main>
 

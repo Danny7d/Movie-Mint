@@ -14,7 +14,7 @@ function Trending() {
       try {
         const response = await axios.get(
           "https://api.themoviedb.org/3/trending/movie/day",
-          { params: { api_key: API_KEY } }
+          { params: { api_key: API_KEY } },
         );
         setMovies(response.data.results);
         setLoading(false);
