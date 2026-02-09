@@ -58,10 +58,10 @@ function Register() {
           {errMsg}
         </p>
         <h1>Register</h1>
-        <form className="register-form" onSubmit={(e) => e.preventDefault()}>
+        <form className="register-form">
           <div className="form-group">
             <label htmlFor="username" className="form-label">
-              <span>Username</span>
+              <span>Username:</span>
               <span className={validName ? "valid validation-icon" : "hide"}>
                 <FaCheck />
               </span>
@@ -76,6 +76,8 @@ function Register() {
             <input
               type="text"
               id="username"
+              ref={userRef}
+              autoComplete="off"
               onChange={(e) => setUser(e.target.value)}
               required
               aria-invalid={validName ? "false" : "true"}
@@ -100,7 +102,7 @@ function Register() {
 
           <div className="form-group">
             <label htmlFor="password" className="form-label">
-              <span>Password</span>
+              <span>Password:</span>
               <span className={validPwd ? "valid validation-icon" : "hide"}>
                 <FaCheck />
               </span>
@@ -115,6 +117,8 @@ function Register() {
             <input
               type="password"
               id="password"
+              ref={pwdRef}
+              autoComplete="off"
               onChange={(e) => setPwd(e.target.value)}
               required
               aria-invalid={validPwd ? "false" : "true"}
@@ -138,7 +142,7 @@ function Register() {
 
           <div className="form-group">
             <label htmlFor="confirm_pwd" className="form-label">
-              <span>Confirm Password</span>
+              <span>Confirm Password:</span>
               <span
                 className={
                   validMatch && matchPwd ? "valid validation-icon" : "hide"

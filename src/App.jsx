@@ -46,13 +46,13 @@ function App() {
       <div className="absolute top-4 right-4 z-[100] flex gap-4">
         <Link
           to="/Register"
-          className="text-white hover:text-purple-400 cursor-pointer transition-colors"
+          className="px-4 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium"
         >
           Login
         </Link>
         <Link
           to="/Register"
-          className="text-white hover:text-pink-400 cursor-pointer transition-colors"
+          className="px-4 py-2 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium"
         >
           Sign Up
         </Link>
