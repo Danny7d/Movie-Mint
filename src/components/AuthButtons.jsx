@@ -8,7 +8,7 @@ function AuthButtons() {
     <>
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="sm:hidden fixed top-4 right-4 z-[120] p-2 bg-gray-800 rounded-lg text-white hover:bg-gray-700 transition-colors"
+        className="sm:hidden fixed top-4 right-4 p-2 bg-gray-800 rounded-lg text-white hover:bg-gray-700 transition-colors"
         aria-label="Toggle menu"
       >
         <svg
@@ -92,7 +92,7 @@ function AuthButtons() {
         </div>
       )}
 
-      <div className="hidden sm:flex fixed top-4 right-4 gap-4 z-[100]">
+      <div className="hidden sm:flex top-4 left-4 gap-4 z-[100]">
         <Link
           to="/Login"
           className="px-4 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium"

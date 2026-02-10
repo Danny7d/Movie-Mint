@@ -57,13 +57,12 @@ function Background() {
   return (
     <div className="relative">
       <div
-        className={`relative h-screen flex items-end text-white overflow-hidden z-10`}
+        className={`relative h-screen min-h-[120vh] sm:h-[80vh] sm:min-h-[80vh] lg:h-[90vh] lg:min-h-[90vh] flex items-end text-white overflow-hidden z-10`}
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/original${pic[currentIndex].backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          minHeight: "120vh",
           opacity: isTransitioning ? 0 : 1,
           transition: "opacity 1s ease-in-out",
           margin: "8px",
