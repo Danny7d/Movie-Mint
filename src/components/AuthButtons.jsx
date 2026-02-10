@@ -97,7 +97,7 @@ function AuthButtons() {
       )}
 
       {/* Desktop Auth Buttons */}
-      <div className="hidden sm:flex auth-buttons">
+      <div className="hidden sm:flex fixed top-4 right-4 gap-4 z-[100]">
         <Link
           to="/Login"
           className="px-4 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium"
