@@ -8,7 +8,6 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%<>]).{8,24}$/;
 
 function Login() {
   const userRef = useRef();
-  const errRef = useRef();
   const pwdRef = useRef();
 
   const [user, setUser] = useState("");
@@ -19,32 +18,18 @@ function Login() {
   const validPwd = PWD_REGEX.test(pwd);
   const [pwdFocus, setPwdFocus] = useState(false);
 
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
-
   useEffect(() => {
     userRef.current.focus();
   }, []);
 
-  useEffect(() => {
-    setErrMsg("");
-  }, [user, pwd]);
-
   return (
     <div className="register-container">
       <section className="register-section">
-        <p
-          ref={errRef}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
         <h1>Login</h1>
         <form className="register-form">
           <div className="form-group">
             <label htmlFor="username" className="form-label">
-              <span>Username</span>
+              <span>Username / Email</span>
               <span className={validName ? "valid validation-icon" : "hide"}>
                 <FaCheck />
               </span>
@@ -64,7 +49,6 @@ function Login() {
               onChange={(e) => setUser(e.target.value)}
               required
               aria-invalid={validName ? "false" : "true"}
-              aria-describedby="uidnote"
               onFocus={() => setUserFocus(true)}
               onBlur={() => setUserFocus(false)}
               className="form-input"
@@ -93,7 +77,6 @@ function Login() {
               onChange={(e) => setPwd(e.target.value)}
               required
               aria-invalid={validPwd ? "false" : "true"}
-              aria-describedby="pwdnote"
               onFocus={() => setPwdFocus(true)}
               onBlur={() => setPwdFocus(false)}
               className="form-input"

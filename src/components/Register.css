@@ -162,7 +162,9 @@
   padding: 60px 40px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   max-width: 450px;
-  margin: 0 auto;
+  margin: 80px auto 0;
+  position: relative;
+  top: 40px;
 }
 
 .success-section h1 {
