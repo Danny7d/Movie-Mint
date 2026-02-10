@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const OMDB_KEY = import.meta.env.VITE_OMDB_API_KEY; // Add this to your .env
 
 function MovieDetails() {
   const { id } = useParams();
@@ -15,16 +16,19 @@ function MovieDetails() {
   useEffect(() => {
     async function fetchMovie() {
       try {
+        // TMDB Movie
         const res = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}`,
           { params: { api_key: API_KEY } },
         );
 
+        // TMDB Credits
         const creditsRes = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}/credits`,
           { params: { api_key: API_KEY } },
         );
 
+        // TMDB Videos
         const videosRes = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}/videos`,
           { params: { api_key: API_KEY } },
@@ -34,19 +38,35 @@ function MovieDetails() {
           (vid) => vid.type === "Trailer" && vid.site === "YouTube",
         );
 
-        if (trailer) {
-          setTrailerKey(trailer.key);
-        }
+        if (trailer) setTrailerKey(trailer.key);
 
         setMovie(res.data);
         setCast(creditsRes.data.cast);
 
+        // ✅ Fetch ratings directly from OMDb
         if (res.data.imdb_id) {
           try {
-            const ratingsRes = await axios.get(
-              `/api/ratings?imdbId=${res.data.imdb_id}`,
-            );
-            setRatings(ratingsRes.data);
+            const omdbRes = await axios.get("https://www.omdbapi.com/", {
+              params: {
+                i: res.data.imdb_id,
+                apikey: OMDB_KEY,
+              },
+            });
+
+            // Extract only IMDb, Rotten Tomatoes, Metacritic
+            const imdb = omdbRes.data.imdbRating
+              ? `${omdbRes.data.imdbRating}/10`
+              : null;
+
+            const rotten = omdbRes.data.Ratings?.find(
+              (r) => r.Source === "Rotten Tomatoes",
+            )?.Value;
+
+            const meta = omdbRes.data.Ratings?.find(
+              (r) => r.Source === "Metacritic",
+            )?.Value;
+
+            setRatings({ imdb, rotten, meta });
           } catch (error) {
             console.error("Error fetching ratings:", error);
           }
@@ -55,36 +75,18 @@ function MovieDetails() {
         console.error(error);
       }
     }
+
     fetchMovie();
   }, [id]);
 
   useEffect(() => {
     function handleEsc(e) {
-      if (e.key === "Escape") {
-        setShowTrailer(false);
-      }
+      if (e.key === "Escape") setShowTrailer(false);
     }
 
     if (showTrailer) {
       window.addEventListener("keydown", handleEsc);
-      return () => {
-        window.removeEventListener("keydown", handleEsc);
-      };
-    }
-  }, [showTrailer]);
-
-  useEffect(() => {
-    function handleEsc(e) {
-      if (e.key === "Escape") {
-        setShowTrailer(false);
-      }
-    }
-
-    if (showTrailer) {
-      window.addEventListener("keydown", handleEsc);
-      return () => {
-        window.removeEventListener("keydown", handleEsc);
-      };
+      return () => window.removeEventListener("keydown", handleEsc);
     }
   }, [showTrailer]);
 
@@ -117,7 +119,6 @@ function MovieDetails() {
               ? movie.genres.map((genre) => genre.name).join(", ")
               : "No genre info"}
           </p>
-          <p>{movie.charecter}</p>
           <p className="text-sm opacity-70">
             Release date: {movie.release_date}
           </p>
@@ -129,21 +130,24 @@ function MovieDetails() {
           <div className="bg-gray-800 rounded-lg p-4 mb-6">
             <h3 className="text-white text-lg font-semibold mb-3">Ratings</h3>
             <div className="flex gap-6 flex-wrap">
-              {ratings.Ratings &&
-                ratings.Ratings.map((rating, index) => (
-                  <div key={index} className="text-white">
-                    <span className="text-gray-400 text-sm">
-                      {rating.Source}:
-                    </span>
-                    <span className="ml-2 font-medium">{rating.Value}</span>
-                  </div>
-                ))}
-              {ratings.imdbRating && (
+              {ratings.imdb && (
                 <div className="text-white">
                   <span className="text-gray-400 text-sm">IMDb:</span>
-                  <span className="ml-2 font-medium">
-                    {ratings.imdbRating}/10
+                  <span className="ml-2 font-medium">{ratings.imdb}</span>
+                </div>
+              )}
+              {ratings.rotten && (
+                <div className="text-white">
+                  <span className="text-gray-400 text-sm">
+                    Rotten Tomatoes:
                   </span>
+                  <span className="ml-2 font-medium">{ratings.rotten}</span>
+                </div>
+              )}
+              {ratings.meta && (
+                <div className="text-white">
+                  <span className="text-gray-400 text-sm">Metacritic:</span>
+                  <span className="ml-2 font-medium">{ratings.meta}</span>
                 </div>
               )}
             </div>
@@ -161,14 +165,12 @@ function MovieDetails() {
           </button>
         </div>
       )}
+
       <div className="p-10 max-w-6xl mx-auto text-white justify-center">
         <h2 className="text-2xl font-bold mb-4 text-center">Cast</h2>
         <div
           className="flex gap-4 overflow-x-auto"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {cast.slice(0, 10).map((actor) => (
             <div key={actor.id} className="w-56 flex-shrink-0 text-center">
