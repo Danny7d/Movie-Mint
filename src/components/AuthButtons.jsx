@@ -92,7 +92,7 @@ function AuthButtons() {
         </div>
       )}
 
-      <div className="hidden sm:flex top-4 left-4 gap-4 z-[100]">
+      <div className="hidden sm:flex top-4 left-4 gap-4 z-[100] mt-2">
         <Link
           to="/Login"
           className="px-4 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium"
