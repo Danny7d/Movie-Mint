@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./App.css";
+import "../App.css";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -17,11 +17,11 @@ function Background() {
       try {
         const response = await axios.get(
           "https://api.themoviedb.org/3/discover/movie",
-          { params: { api_key: API_KEY } }
+          { params: { api_key: API_KEY } },
         );
 
         const validMovies = response.data.results.filter(
-          (movie) => movie.backdrop_path && movie.vote_average >= 5
+          (movie) => movie.backdrop_path && movie.vote_average >= 5,
         );
         setPic(validMovies);
         setLoading(false);

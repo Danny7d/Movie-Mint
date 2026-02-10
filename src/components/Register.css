@@ -9,7 +9,7 @@
 }
 
 .register-section {
-  background: white;
+  background: darkgray;
   border-radius: 12px;
   padding: 40px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -19,7 +19,7 @@
 }
 
 .register-section h1 {
-  color: #333;
+  color: black;
   font-size: 2rem;
   margin-bottom: 30px;
   text-align: center;

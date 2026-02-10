@@ -18,6 +18,13 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.auth-buttons {
+  display: flex;
+  gap: 10px; /* space between buttons */
+  justify-content: flex-end; /* align to right */
+  margin: 10px 0; /* vertical spacing */
+}
+
 .gradient-text {
   background: linear-gradient(90deg, #7c3aed, #ec4899, #f43f5e);
   background-clip: text;

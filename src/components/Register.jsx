@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "./Register.css";
+import { Link } from "react-router-dom";
 import { FaCheck, FaTimes, FaUser, FaLock } from "react-icons/fa";
 
 const USER_REGEX = /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
@@ -61,7 +62,7 @@ function Register() {
         <form className="register-form">
           <div className="form-group">
             <label htmlFor="username" className="form-label">
-              <span>Username:</span>
+              <span>Username</span>
               <span className={validName ? "valid validation-icon" : "hide"}>
                 <FaCheck />
               </span>
@@ -102,7 +103,7 @@ function Register() {
 
           <div className="form-group">
             <label htmlFor="password" className="form-label">
-              <span>Password:</span>
+              <span>Password</span>
               <span className={validPwd ? "valid validation-icon" : "hide"}>
                 <FaCheck />
               </span>
@@ -142,7 +143,7 @@ function Register() {
 
           <div className="form-group">
             <label htmlFor="confirm_pwd" className="form-label">
-              <span>Confirm Password:</span>
+              <span>Confirm Password</span>
               <span
                 className={
                   validMatch && matchPwd ? "valid validation-icon" : "hide"
@@ -190,9 +191,9 @@ function Register() {
           Already registered?
           <br />
           <span className="line">
-            <a href="#" className="signin-link">
+            <Link to="/Login" className="signin-link">
               Sign In
-            </a>
+            </Link>
           </span>
         </p>
       </section>

@@ -3,19 +3,21 @@ import Searchbar from "./components/Searchbar";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import Trending from "./components/Trending";
 import Popular from "./components/Popular";
-import Background from "./Background";
+import Background from "./components/Background";
 import MovieDetails from "./components/MovieDetails";
 import Footer from "./components/Footer";
-import Register from "./Register";
+import AuthButtons from "./components/AuthButtons";
+import Register from "./components/Register";
+import Login from "./components/Login";
 import "./App.css";
 
 function Home() {
   return (
     <>
-      <span className="flex justify-center pt-16 z-50 relative">
+      <AuthButtons />
+      <span className="flex justify-center pt-0 z-50 relative">
         <Searchbar />
       </span>
-
       <Background />
       <Trending />
       <Popular />
@@ -42,27 +44,12 @@ function App() {
           MovieMint
         </Link>
       </div>
-
-      <div className="absolute top-4 right-4 z-[100] flex gap-4">
-        <Link
-          to="/Register"
-          className="px-4 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium"
-        >
-          Login
-        </Link>
-        <Link
-          to="/Register"
-          className="px-4 py-2 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium"
-        >
-          Sign Up
-        </Link>
-      </div>
-
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/Register" element={<Register />} />
+          <Route path="/Login" element={<Login />} />
         </Routes>
       </main>
 

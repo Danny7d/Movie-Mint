@@ -17,21 +17,21 @@ function MovieDetails() {
       try {
         const res = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}`,
-          { params: { api_key: API_KEY } }
+          { params: { api_key: API_KEY } },
         );
 
         const creditsRes = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}/credits`,
-          { params: { api_key: API_KEY } }
+          { params: { api_key: API_KEY } },
         );
 
         const videosRes = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}/videos`,
-          { params: { api_key: API_KEY } }
+          { params: { api_key: API_KEY } },
         );
 
         const trailer = videosRes.data.results.find(
-          (vid) => vid.type === "Trailer" && vid.site === "YouTube"
+          (vid) => vid.type === "Trailer" && vid.site === "YouTube",
         );
 
         if (trailer) {
@@ -44,7 +44,7 @@ function MovieDetails() {
         if (res.data.imdb_id) {
           try {
             const ratingsRes = await axios.get(
-              `/api/ratings?imdbId=${res.data.imdb_id}`
+              `/api/ratings?imdbId=${res.data.imdb_id}`,
             );
             setRatings(ratingsRes.data);
           } catch (error) {
