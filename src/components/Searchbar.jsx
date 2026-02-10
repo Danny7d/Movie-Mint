@@ -17,7 +17,7 @@ function Searchbar() {
       try {
         const response = await axios.get(
           "https://api.themoviedb.org/3/genre/movie/list",
-          { params: { api_key: API_KEY } }
+          { params: { api_key: API_KEY } },
         );
         const genreMap = {};
         response.data.genres.forEach((genre) => {
@@ -41,7 +41,7 @@ function Searchbar() {
         "https://api.themoviedb.org/3/search/movie",
         {
           params: { api_key: API_KEY, query: query },
-        }
+        },
       );
       setResults(response.data.results);
     } catch (error) {

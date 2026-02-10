@@ -15,7 +15,7 @@ function Home() {
   return (
     <>
       <AuthButtons />
-      <span className="flex justify-center pt-0 z-50 relative">
+      <span className="flex justify-center p-4 sm:p-8 mt-8 sm:mt-12 relative z-0">
         <Searchbar />
       </span>
       <Background />
@@ -28,10 +28,10 @@ function Home() {
 function App() {
   return (
     <div className="bg-black min-h-screen flex flex-col">
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[100] text-center sm:left-4 sm:transform-none md:left-4 md:transform-none lg:left-4 xl:left-4 sm:text-left md:text-left pointer-events-auto">
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[100] text-center sm:left-4 sm:transform-none md:left-4 md:transform-none lg:left-4 xl:left-4 sm:text-left md:text-left pointer-events-auto mb-72">
         <Link
           to="/"
-          className="text-xl font-bold md:text-4xl hover:opacity-80 transition-opacity cursor-pointer inline-block relative z-[110]"
+          className="text-xl font-bold md:text-4xl hover:opacity-80 transition-opacity cursor-pointer inline-block relative z-[110] mb-10"
           style={{
             textDecoration: "none",
             background: "linear-gradient(90deg, #7c3aed, #ec4899, #f43f5e)",

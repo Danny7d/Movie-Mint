@@ -6,7 +6,6 @@ function AuthButtons() {
 
   return (
     <>
-      {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="sm:hidden fixed top-4 right-4 z-[120] p-2 bg-gray-800 rounded-lg text-white hover:bg-gray-700 transition-colors"
@@ -36,7 +35,6 @@ function AuthButtons() {
         </svg>
       </button>
 
-      {/* Mobile Overlay Menu */}
       {isMenuOpen && (
         <div className="sm:hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[110] flex flex-col items-center justify-center">
           <button
@@ -59,7 +57,6 @@ function AuthButtons() {
             </svg>
           </button>
 
-          {/* MovieMint Link */}
           <Link
             to="/"
             onClick={() => setIsMenuOpen(false)}
@@ -76,7 +73,6 @@ function AuthButtons() {
             MovieMint
           </Link>
 
-          {/* Auth Buttons */}
           <div className="flex flex-col gap-4 w-full px-8">
             <Link
               to="/Login"
@@ -96,7 +92,6 @@ function AuthButtons() {
         </div>
       )}
 
-      {/* Desktop Auth Buttons */}
       <div className="hidden sm:flex fixed top-4 right-4 gap-4 z-[100]">
         <Link
           to="/Login"
