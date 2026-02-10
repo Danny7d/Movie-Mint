@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const OMDB_KEY = import.meta.env.VITE_OMDB_API_KEY; // Add this to your .env
+const OMDB_KEY = import.meta.env.VITE_OMDB_API_KEY;
 
 function MovieDetails() {
   const { id } = useParams();
@@ -126,28 +126,38 @@ function MovieDetails() {
       </div>
 
       {ratings && (
-        <div className="px-10 max-w-4xl">
-          <div className="bg-gray-800 rounded-lg p-4 mb-6">
-            <h3 className="text-white text-lg font-semibold mb-3">Ratings</h3>
-            <div className="flex gap-6 flex-wrap">
+        <div className="flex justify-center items-center px-10">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-6 mb-6 border border-gray-700 shadow-2xl w-full max-w-2xl">
+            <h3 className="text-white text-xl font-bold mb-6 flex items-center justify-center">
+              <span className="mr-2">⭐</span> Ratings & Reviews
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {ratings.imdb && (
-                <div className="text-white">
-                  <span className="text-gray-400 text-sm">IMDb:</span>
-                  <span className="ml-2 font-medium">{ratings.imdb}</span>
+                <div className="bg-gray-700/50 rounded-lg p-4 text-center backdrop-blur-sm border border-gray-600 hover:border-yellow-500 transition-all duration-300">
+                  <div className="text-yellow-400 text-2xl font-bold mb-1">
+                    {ratings.imdb}
+                  </div>
+                  <div className="text-gray-300 text-sm font-medium">IMDb</div>
                 </div>
               )}
               {ratings.rotten && (
-                <div className="text-white">
-                  <span className="text-gray-400 text-sm">
-                    Rotten Tomatoes:
-                  </span>
-                  <span className="ml-2 font-medium">{ratings.rotten}</span>
+                <div className="bg-gray-700/50 rounded-lg p-4 text-center backdrop-blur-sm border border-gray-600 hover:border-red-500 transition-all duration-300">
+                  <div className="text-red-400 text-2xl font-bold mb-1">
+                    {ratings.rotten}
+                  </div>
+                  <div className="text-gray-300 text-sm font-medium">
+                    Rotten Tomatoes
+                  </div>
                 </div>
               )}
               {ratings.meta && (
-                <div className="text-white">
-                  <span className="text-gray-400 text-sm">Metacritic:</span>
-                  <span className="ml-2 font-medium">{ratings.meta}</span>
+                <div className="bg-gray-700/50 rounded-lg p-4 text-center backdrop-blur-sm border border-gray-600 hover:border-blue-500 transition-all duration-300">
+                  <div className="text-blue-400 text-2xl font-bold mb-1">
+                    {ratings.meta}
+                  </div>
+                  <div className="text-gray-300 text-sm font-medium">
+                    Metacritic
+                  </div>
                 </div>
               )}
             </div>
