@@ -55,7 +55,7 @@ function Trending() {
   }
 
   return (
-    <div className="mt-24 ml-4 sm:ml-8 text-center">
+    <div className="mt-24 sm:ml-6 sm:mr-6 text-center">
       <h1 className="p-5 text-3xl font-bold gradient-text text-center">
         Trending
       </h1>
@@ -69,11 +69,11 @@ function Trending() {
         {movies.map((movie, index) => (
           <div
             key={movie.id}
-            className={`relative ${index === movies.length - 1 ? "mr-8" : ""}`}
+            className={`relative ${index === movies.length - 1 ? "mr-2" : ""}`}
           >
             <Link to={`/movie/${movie.id}`} className="relative block">
               <img
-                className="m-1.5 sm:m-4 w-24 sm:w-48 rounded-md cursor-pointer hover:scale-110 transition duration-300 rounded-t-md"
+                className="sm:m-4 w-24 sm:w-48 rounded-md cursor-pointer hover:scale-110 transition duration-300 rounded-t-md"
                 src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                 alt={movie.title}
               />

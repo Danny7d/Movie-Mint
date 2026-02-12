@@ -34,7 +34,7 @@ function Popular() {
   }
 
   return (
-    <div className="text-center mt-12 ml-4 sm:ml-8">
+    <div className="text-center mt-12 sm:ml-6 sm:mr-6">
       <h1 className="p-5 text-3xl font-bold gradient-text text-center">
         Popular
       </h1>
@@ -48,7 +48,7 @@ function Popular() {
         {movies.map((movie, index) => (
           <div
             key={movie.id}
-            className={`relative ${index === movies.length - 1 ? "mr-8" : ""}`}
+            className={`relative ${index === movies.length - 1 ? "mr-2" : ""}`}
           >
             <Link to={`/movie/${movie.id}`} className="relative block">
               <img
