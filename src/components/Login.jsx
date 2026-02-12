@@ -3,7 +3,7 @@ import "./Register.css";
 import { FaCheck, FaTimes, FaUser, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const USER_REGEX = /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
+const USER_REGEX = /^[A-Za-z][A-Za-z0-9_@.]{4,29}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%<>]).{8,24}$/;
 
 function Login() {

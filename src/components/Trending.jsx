@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
+import FavoriteIcon from "./FavoriteIcon";
+import { FaHeart } from "react-icons/fa";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -27,6 +29,16 @@ function Trending() {
       GetTrending();
     }
   }, []);
+
+  const addToFavorites = (movie) => {
+    const existing = JSON.parse(localStorage.getItem("favorites")) || [];
+    const alreadyExists = existing.some((item) => item.id === movie.id);
+
+    if (!alreadyExists) {
+      const updated = [...existing, movie];
+      localStorage.setItem("favorites", JSON.stringify(updated));
+    }
+  };
 
   if (loading) {
     return (
@@ -57,18 +69,20 @@ function Trending() {
         {movies.map((movie, index) => (
           <div
             key={movie.id}
-            className={index === movies.length - 1 ? "mr-8" : ""}
+            className={`relative ${index === movies.length - 1 ? "mr-8" : ""}`}
           >
-            <Link to={`/movie/${movie.id}`}>
+            <Link to={`/movie/${movie.id}`} className="relative block">
               <img
                 className="m-1.5 sm:m-4 w-24 sm:w-48 rounded-md cursor-pointer hover:scale-110 transition duration-300 rounded-t-md"
                 src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                 alt={movie.title}
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Link>
             <div className="w-24 sm:w-48 mt-2 sm:mt-3">
               <h2 className="text-white text-center">{movie.title}</h2>
             </div>
+            <FavoriteIcon movieId={movie.id} movie={movie} />
           </div>
         ))}
       </div>

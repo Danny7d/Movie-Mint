@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import "../App.css";
+import FavoriteIcon from "./FavoriteIcon";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -83,12 +84,17 @@ function Searchbar() {
           <h1 className="gradient-text text-2xl mb-4">Search Results</h1>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
             {results.map((movie) => (
-              <div key={movie.id}>
-                <Link to={`/movie/${movie.id}`} onClick={clearSearch}>
+              <div key={movie.id} className="relative">
+                <Link
+                  to={`/movie/${movie.id}`}
+                  onClick={clearSearch}
+                  className="relative block"
+                >
                   <img
                     src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                     className="w-48 rounded hover:scale-110 transition duration-300"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </Link>
                 <div className="w-48">
                   <h2 className="text-white mt-4 text-center">{movie.title}</h2>
@@ -101,6 +107,7 @@ function Searchbar() {
                       : "No genre info"}
                   </p>
                 </div>
+                <FavoriteIcon movieId={movie.id} movie={movie} />
               </div>
             ))}
           </div>

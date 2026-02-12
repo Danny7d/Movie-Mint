@@ -88,6 +88,16 @@ function AuthButtons() {
             >
               Sign Up
             </Link>
+            <Link
+              to="/favs"
+              onClick={() => setIsMenuOpen(false)}
+              className="w-full px-6 py-3 text-white bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg transition-all duration-200 font-medium text-center flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3.172 5.172a4 4 0 015.656 0L9 10.343l.172.171a4 4 0 015.656 0l4 4a4 4 0 01.528 0L19 8.343V4a2 2 0 00-2-2H7a2 2 0 00-2 2v4.343a4 4 0 01.528 0l4-4z" />
+              </svg>
+              Favorites
+            </Link>
           </div>
         </div>
       )}
@@ -104,6 +114,15 @@ function AuthButtons() {
           className="px-4 py-2 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium"
         >
           Sign Up
+        </Link>
+        <Link
+          to="/favs"
+          className="px-4 py-2 text-white bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg transition-all duration-200 font-medium flex items-center gap-2"
+        >
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3.172 5.172a4 4 0 015.656 0L9 10.343l.172.171a4 4 0 015.656 0l4 4a4 4 0 01.528 0L19 8.343V4a2 2 0 00-2-2H7a2 2 0 00-2 2v4.343a4 4 0 01.528 0l4-4z" />
+          </svg>
+          Favorites
         </Link>
       </div>
     </>

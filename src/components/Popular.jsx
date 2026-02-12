@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
 import "../App.css";
+import FavoriteIcon from "./FavoriteIcon";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -48,20 +48,22 @@ function Popular() {
         {movies.map((movie, index) => (
           <div
             key={movie.id}
-            className={index === movies.length - 1 ? "mr-8" : ""}
+            className={`relative ${index === movies.length - 1 ? "mr-8" : ""}`}
           >
-            <Link to={`/movie/${movie.id}`}>
+            <Link to={`/movie/${movie.id}`} className="relative block">
               <img
                 className="m-1.5 sm:m-4 w-24 sm:w-48 justify-space-evenly rounded-md cursor-pointer hover:scale-110 transition duration-300"
                 src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                 alt={movie.title}
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Link>
             <div className="w-24 sm:w-48 mt-2 sm:mt-3">
               <h2 className="mt-3 ml-9 text-white backdrop-blur-sm text-center">
                 {movie.title}
               </h2>
             </div>
+            <FavoriteIcon movieId={movie.id} movie={movie} />
           </div>
         ))}
       </div>

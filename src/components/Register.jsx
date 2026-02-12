@@ -59,24 +59,20 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Prevent button click if form is invalid
+
     if (!validEmail || !validName || !validPwd || !validMatch) {
       setErrMsg("Invalid Entry");
       return;
     }
 
     try {
-      // Here you would typically make an API call to register the user
-      // For now, we'll simulate a successful registration
       console.log("Registration data:", { email, user });
 
-      // Clear form fields
       setEmail("");
       setUser("");
       setPwd("");
       setMatchPwd("");
 
-      // Set success state
       setSuccess(true);
     } catch (error) {
       console.error("Registration failed:", error);

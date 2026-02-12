@@ -7,6 +7,7 @@ import Background from "./components/Background";
 import MovieDetails from "./components/MovieDetails";
 import Footer from "./components/Footer";
 import AuthButtons from "./components/AuthButtons";
+import FavMovies from "./components/FavMovies";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import "./App.css";
@@ -48,6 +49,7 @@ function App() {
       </div>
       <main className="flex-grow">
         <Routes>
+          <Route path="/favs" element={<FavMovies />} />
           <Route path="/" element={<Home />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/Register" element={<Register />} />

@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import FavoriteIcon from "./FavoriteIcon";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const OMDB_KEY = import.meta.env.VITE_OMDB_API_KEY;
@@ -16,13 +17,13 @@ function MovieDetails() {
   useEffect(() => {
     async function fetchMovie() {
       try {
-        // TMDB Movie
+        //TMDB Movie
         const res = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}`,
           { params: { api_key: API_KEY } },
         );
 
-        // TMDB Credits
+        //TMDB Credits
         const creditsRes = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}/credits`,
           { params: { api_key: API_KEY } },
@@ -43,7 +44,7 @@ function MovieDetails() {
         setMovie(res.data);
         setCast(creditsRes.data.cast);
 
-        // ✅ Fetch ratings directly from OMDb
+        //Fetch ratings directly from OMDb
         if (res.data.imdb_id) {
           try {
             const omdbRes = await axios.get("https://www.omdbapi.com/", {
@@ -53,7 +54,7 @@ function MovieDetails() {
               },
             });
 
-            // Extract only IMDb, Rotten Tomatoes, Metacritic
+            //IMDb, Rotten Tomatoes, Metacritic
             const imdb = omdbRes.data.imdbRating
               ? `${omdbRes.data.imdbRating}/10`
               : null;
@@ -113,6 +114,7 @@ function MovieDetails() {
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative z-10 p-10 max-w-4xl text-white">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{movie.title}</h1>
+          <FavoriteIcon movieId={movie?.id} movie={movie} />
           <p className="text-lg opacity-90 mb-4">{movie.overview}</p>
           <p className="text-blue-400 mb-2">
             {movie.genres && movie.genres.length > 0
