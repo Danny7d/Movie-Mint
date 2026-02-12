@@ -20,7 +20,7 @@ function FavMovies() {
     <div className="min-h-screen bg-black text-white p-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-2xl lg:text-4xl font-bold gradient-text inline-block">
+          <h1 className="text-xl lg:text-4xl font-bold gradient-text inline-block mt-4">
             Favorites
           </h1>
         </div>
@@ -42,7 +42,7 @@ function FavMovies() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {favorites.map((movie) => (
               <div key={movie.id} className="group relative">
                 <Link to={`/movie/${movie.id}`} className="block">
