@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
 
 function AuthButtons() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { session, signOut } = UserAuth();
 
   return (
     <>
@@ -84,37 +86,39 @@ function AuthButtons() {
               </svg>
               Favorites
             </Link>
-            <Link
-              to="/Login"
-              onClick={() => setIsMenuOpen(false)}
-              className="w-full px-6 py-3 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium text-center"
-            >
-              Login
-            </Link>
-            <Link
-              to="/Register"
-              onClick={() => setIsMenuOpen(false)}
-              className="w-full px-6 py-3 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium text-center"
-            >
-              Sign Up
-            </Link>
+            {session ? (
+              <button
+                onClick={() => {
+                  signOut();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full px-6 py-3 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 font-medium text-center"
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link
+                  to="/Login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full px-6 py-3 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium text-center"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/Register"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full px-6 py-3 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium text-center"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
 
       <div className="hidden sm:flex top-4 left-4 gap-4 z-[100] mt-2">
-        <Link
-          to="/Login"
-          className="px-4 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium"
-        >
-          Login
-        </Link>
-        <Link
-          to="/Register"
-          className="px-4 py-2 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium"
-        >
-          Sign Up
-        </Link>
         <Link
           to="/favs"
           className="px-4 py-2 text-white bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg transition-all duration-200 font-medium flex items-center gap-2"
@@ -124,6 +128,29 @@ function AuthButtons() {
           </svg>
           Favorites
         </Link>
+        {session ? (
+          <button
+            onClick={signOut}
+            className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 font-medium"
+          >
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link
+              to="/Login"
+              className="px-4 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium"
+            >
+              Login
+            </Link>
+            <Link
+              to="/Register"
+              className="px-4 py-2 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium"
+            >
+              Sign Up
+            </Link>
+          </>
+        )}
       </div>
     </>
   );

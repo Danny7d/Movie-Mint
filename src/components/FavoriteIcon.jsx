@@ -29,7 +29,7 @@ function FavoriteIcon({ movieId, movie, className = "" }) {
   return (
     <button
       onClick={toggleFavorite}
-      className={`absolute bottom-12 left-40 p-2 rounded-full transition-all duration-300 z-96 ${isFavorited ? "bg-red-500" : "bg-gray-800/80 hover:bg-gray-700"} ${className}`}
+      className={`absolute top-0 left-16 lg:bottom-12 lg:left-40 lg:ml-0 lg:mb-48 p-2 rounded-full transition-all duration-300 z-50 ${isFavorited ? "bg-red-500" : "bg-gray-800/80 hover:bg-gray-700"} ${className}`}
       title={isFavorited ? "Remove from favorites" : "Add to favorites"}
     >
       <FaHeart

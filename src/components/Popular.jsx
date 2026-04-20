@@ -34,7 +34,7 @@ function Popular() {
   }
 
   return (
-    <div className="text-center mt-12 sm:ml-6 sm:mr-6">
+    <div className="text-center lg:mt-12 mb-2 sm:ml-6 sm:mr-6">
       <h1 className="p-5 text-3xl font-bold gradient-text text-center">
         Popular
       </h1>

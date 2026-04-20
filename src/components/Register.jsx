@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import "./Register.css";
 import { Link } from "react-router-dom";
 import { FaCheck, FaTimes, FaUser, FaLock } from "react-icons/fa";
+import { UserAuth } from "../context/AuthContext";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const USER_REGEX = /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%<>]).{8,24}$/;
 
 function Register() {
+  const emialRef = useRef();
   const userRef = useRef();
   const errRef = useRef();
   const pwdRef = useRef();
@@ -32,7 +34,7 @@ function Register() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    userRef.current.focus();
+    emialRef.current.focus();
   }, []);
 
   useEffect(() => {
@@ -66,19 +68,34 @@ function Register() {
     }
 
     try {
-      console.log("Registration data:", { email, user });
+      console.log("Registration data:", { email, user, pwd });
+      console.log("Calling signUpNewUser...");
 
+      const result = await signUpNewUser(email, pwd);
+      console.log("Registration result:", result);
+
+      if (!result.success) {
+        console.error("Registration failed:", result.error);
+        setErrMsg(result.error?.message || "Registration Failed");
+        return;
+      }
+
+      console.log("Registration successful!");
       setEmail("");
       setUser("");
       setPwd("");
       setMatchPwd("");
 
+      // Show success message with email confirmation info
       setSuccess(true);
     } catch (error) {
-      console.error("Registration failed:", error);
-      setErrMsg("Registration Failed");
+      console.error("Registration failed with error:", error);
+      setErrMsg(error.message || "Registration Failed");
     }
   };
+
+  const { session, signUpNewUser } = UserAuth();
+  console.log(session);
 
   return (
     <>
@@ -87,6 +104,10 @@ function Register() {
           <h1>Success!</h1>
           <p className="success-message">
             Your account has been created successfully.
+          </p>
+          <p className="confirmation-message">
+            Please check your email and click the confirmation link to activate
+            your account.
           </p>
           <p className="signin-prompt">
             <Link to="/Login" className="signin-link">
@@ -125,6 +146,7 @@ function Register() {
 
                 <input
                   type="email"
+                  ref={emialRef}
                   id="email"
                   className="form-input"
                   value={email}
