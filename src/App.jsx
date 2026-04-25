@@ -11,6 +11,7 @@ import AuthButtons from "./components/AuthButtons";
 import FavMovies from "./components/FavMovies";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import CheckEmail from "./components/CheckEmail";
 import "./App.css";
 
 // Error Boundary Component
@@ -106,6 +107,7 @@ function App() {
             <Route path="/movie/:id" element={<MovieDetails />} />
             <Route path="/Register" element={<Register />} />
             <Route path="/Login" element={<Login />} />
+            <Route path="/check-email" element={<CheckEmail />} />
           </Routes>
         </main>
 

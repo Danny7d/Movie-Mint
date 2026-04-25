@@ -60,12 +60,32 @@ export const AuthContextProvider = ({ children }) => {
     });
   }, []);
 
-  // Sing outx
+  // Sign in
+  const signIn = async (email, password) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
 
+      if (error) {
+        console.error("Sign in error:", error);
+        return { success: false, error };
+      }
+
+      console.log("Sign in successful:", data);
+      return { success: true, data };
+    } catch (err) {
+      console.error("Unexpected error during sign in:", err);
+      return { success: false, error: err };
+    }
+  };
+
+  // Sign out
   const signOut = () => {
     const { error } = supabase.auth.signOut();
     if (error) {
-      console.error("There was a promlem signing out error.", error);
+      console.error("There was a problem signing out error.", error);
     }
   };
 
@@ -78,7 +98,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ session, signUpNewUser, signOut }}>
+    <AuthContext.Provider value={{ session, signUpNewUser, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

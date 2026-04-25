@@ -4,7 +4,22 @@ import { UserAuth } from "../context/AuthContext";
 
 function AuthButtons() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const { session, signOut } = UserAuth();
+
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true);
+    setIsMenuOpen(false);
+  };
+
+  const confirmLogout = () => {
+    signOut();
+    setShowLogoutDialog(false);
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutDialog(false);
+  };
 
   return (
     <>
@@ -88,10 +103,7 @@ function AuthButtons() {
             </Link>
             {session ? (
               <button
-                onClick={() => {
-                  signOut();
-                  setIsMenuOpen(false);
-                }}
+                onClick={handleLogoutClick}
                 className="w-full px-6 py-3 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 font-medium text-center"
               >
                 Logout
@@ -130,7 +142,7 @@ function AuthButtons() {
         </Link>
         {session ? (
           <button
-            onClick={signOut}
+            onClick={handleLogoutClick}
             className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 font-medium"
           >
             Logout
@@ -152,6 +164,34 @@ function AuthButtons() {
           </>
         )}
       </div>
+
+      {/* Logout Confirmation Dialog */}
+      {showLogoutDialog && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 max-w-sm w-full mx-4 border border-gray-700">
+            <h3 className="text-white text-lg font-semibold mb-4">
+              Confirm Logout
+            </h3>
+            <p className="text-gray-300 mb-6">
+              Are you sure you want to logout?
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={cancelLogout}
+                className="px-4 py-2 text-gray-300 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmLogout}
+                className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
