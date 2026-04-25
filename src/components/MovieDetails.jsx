@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import FavoriteIcon from "./FavoriteIcon";
+import { FaHeart } from "react-icons/fa";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const OMDB_KEY = import.meta.env.VITE_OMDB_API_KEY;
@@ -13,6 +13,26 @@ function MovieDetails() {
   const [trailerKey, setTrailerKey] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [ratings, setRatings] = useState(null);
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setIsFavorited(favorites.some((fav) => fav.id === parseInt(id)));
+  }, [id]);
+
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    let updatedFavorites;
+
+    if (isFavorited) {
+      updatedFavorites = favorites.filter((fav) => fav.id !== parseInt(id));
+    } else {
+      updatedFavorites = [...favorites, movie];
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setIsFavorited(!isFavorited);
+  };
 
   useEffect(() => {
     async function fetchMovie() {
@@ -114,7 +134,6 @@ function MovieDetails() {
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative z-10 p-10 max-w-4xl text-white">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{movie.title}</h1>
-          <FavoriteIcon movieId={movie?.id} movie={movie} />
           <p className="text-lg opacity-90 mb-4">{movie.overview}</p>
           <p className="text-blue-400 mb-2">
             {movie.genres && movie.genres.length > 0
@@ -133,7 +152,7 @@ function MovieDetails() {
             <h3 className="text-white text-xl font-bold mb-6 flex items-center justify-center">
               <span className="mr-2">⭐</span> Ratings & Reviews
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {ratings.imdb && (
                 <div className="bg-gray-700/50 rounded-lg p-4 text-center backdrop-blur-sm border border-gray-600 hover:border-yellow-500 transition-all duration-300">
                   <div className="text-yellow-400 text-2xl font-bold mb-1">
@@ -166,6 +185,27 @@ function MovieDetails() {
           </div>
         </div>
       )}
+
+      {/* Favorite Button Section */}
+      <div className="flex justify-center items-center px-10 mb-6">
+        <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 shadow-2xl w-full max-w-2xl">
+          <div className="flex justify-center">
+            <button
+              onClick={toggleFavorite}
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                isFavorited
+                  ? "bg-red-600 hover:bg-red-700 text-white"
+                  : "bg-gray-700 hover:bg-gray-600 text-white"
+              }`}
+            >
+              <FaHeart
+                className={isFavorited ? "text-white" : "text-gray-400"}
+              />
+              {isFavorited ? "Remove from Favorite" : "Add to Favorite"}
+            </button>
+          </div>
+        </div>
+      </div>
 
       {trailerKey && (
         <div className="flex justify-center">
