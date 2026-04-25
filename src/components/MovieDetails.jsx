@@ -18,6 +18,13 @@ function MovieDetails() {
   const { addToFavorites, removeFromFavorites, isFavorite, loading } =
     useFavorites();
 
+  useEffect(() => {
+    // Reset page title when component unmounts
+    return () => {
+      document.title = "MovieMint - Discover Movies";
+    };
+  }, []);
+
   const toggleFavorite = () => {
     if (!movie) return;
 
@@ -57,6 +64,11 @@ function MovieDetails() {
 
         setMovie(res.data);
         setCast(creditsRes.data.cast);
+
+        // Update page title dynamically
+        if (res.data.title) {
+          document.title = `${res.data.title} - MovieMint`;
+        }
 
         //Fetch ratings directly from OMDb
         if (res.data.imdb_id) {

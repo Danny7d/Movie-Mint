@@ -151,6 +151,113 @@
   margin: 0;
 }
 
+.username-edit-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.username-input {
+  flex: 1;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.username-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #7c3aed;
+}
+
+.username-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.username-edit-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.username-save-button,
+.username-cancel-button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.username-save-button {
+  background: #10b981;
+  color: white;
+}
+
+.username-save-button:hover:not(:disabled) {
+  background: #059669;
+}
+
+.username-cancel-button {
+  background: #ef4444;
+  color: white;
+}
+
+.username-cancel-button:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.username-save-button:disabled,
+.username-cancel-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.username-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.username-edit-button {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.username-edit-button:hover {
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.username-error {
+  color: #ef4444;
+  font-size: 12px;
+  margin: 4px 0;
+}
+
+.login-info {
+  color: #3b82f6;
+  font-size: 11px;
+  margin: 8px 0 0 0;
+  font-style: italic;
+}
+
 .user-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -237,20 +344,20 @@
     padding: 16px;
     right: -8px;
   }
-  
+
   .user-stats {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
-  
+
   .stat-item {
     padding: 8px;
   }
-  
+
   .stat-number {
     font-size: 16px;
   }
-  
+
   .stat-label {
     font-size: 10px;
   }

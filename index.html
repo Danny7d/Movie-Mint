@@ -6,7 +6,47 @@
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <meta name="theme-color" content="#8b5cf6" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>movie-mint</title>
+
+    <!-- SEO Meta Tags -->
+    <title>MovieMint - Discover Movies</title>
+    <meta
+      name="description"
+      content="Search and explore movies, see ratings, trailers, and details on MovieMint."
+    />
+    <meta
+      name="keywords"
+      content="movies, movie search, film database, trailers, ratings"
+    />
+    <meta name="author" content="Danny" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="MovieMint" />
+    <meta
+      property="og:description"
+      content="Explore movies, ratings and trailers."
+    />
+    <meta property="og:image" content="/preview.png" />
+    <meta property="og:url" content="https://movie-mint-d.vercel.app/" />
+    <meta property="og:type" content="website" />
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=google20bc451559e09afb"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "google20bc451559e09afb");
+    </script>
   </head>
   <body>
     <div id="root"></div>

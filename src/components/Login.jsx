@@ -4,7 +4,8 @@ import "./Register.css";
 import { FaCheck, FaTimes, FaUser, FaLock } from "react-icons/fa";
 import { UserAuth } from "../context/AuthContext";
 
-const USER_REGEX = /^[A-Za-z][A-Za-z0-9_@.]{4,29}$/;
+const USER_REGEX =
+  /^[A-Za-z][A-Za-z0-9_]{4,29}$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%<>]).{8,24}$/;
 
 function Login() {
@@ -64,7 +65,7 @@ function Login() {
         <form className="register-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username" className="form-label">
-              <span>Username / Email</span>
+              <span>Email or Username</span>
               <span className={validName ? "valid validation-icon" : "hide"}>
                 <FaCheck />
               </span>
@@ -84,10 +85,24 @@ function Login() {
               onChange={(e) => setUser(e.target.value)}
               required
               aria-invalid={validName ? "false" : "true"}
+              aria-describedby="uidnote"
               onFocus={() => setUserFocus(true)}
               onBlur={() => setUserFocus(false)}
               className="form-input"
+              placeholder="Enter your email or username"
             />
+            <p
+              id="uidnote"
+              className={
+                userFocus && user && !validName ? "instructions" : "offscreen"
+              }
+            >
+              Enter your email address or username
+              <br />
+              Email: example@email.com
+              <br />
+              Username: 4 to 24 characters, starts with a letter
+            </p>
           </div>
 
           <div className="form-group">
