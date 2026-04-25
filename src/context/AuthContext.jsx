@@ -9,8 +9,9 @@ export const AuthContextProvider = ({ children }) => {
   const [session, setSession] = useState(undefined);
 
   // Sign up
-  const signUpNewUser = async (email, password) => {
+  const signUpNewUser = async (email, password, username) => {
     console.log("Attempting to sign up user:", email);
+    console.log("Username:", username);
     console.log("Supabase URL:", supabaseUrl);
 
     try {
@@ -18,6 +19,9 @@ export const AuthContextProvider = ({ children }) => {
         email: email,
         password: password,
         options: {
+          data: {
+            username: username,
+          },
           emailRedirectTo: window.location.origin + "/Login",
         },
       });

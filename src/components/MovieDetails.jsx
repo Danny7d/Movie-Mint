@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
+import { useFavorites } from "../context/FavoritesContext";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const OMDB_KEY = import.meta.env.VITE_OMDB_API_KEY;
@@ -13,25 +14,18 @@ function MovieDetails() {
   const [trailerKey, setTrailerKey] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [ratings, setRatings] = useState(null);
-  const [isFavorited, setIsFavorited] = useState(false);
 
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setIsFavorited(favorites.some((fav) => fav.id === parseInt(id)));
-  }, [id]);
+  const { addToFavorites, removeFromFavorites, isFavorite, loading } =
+    useFavorites();
 
   const toggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    let updatedFavorites;
+    if (!movie) return;
 
-    if (isFavorited) {
-      updatedFavorites = favorites.filter((fav) => fav.id !== parseInt(id));
+    if (isFavorite(movie.id)) {
+      removeFromFavorites(movie.id);
     } else {
-      updatedFavorites = [...favorites, movie];
+      addToFavorites(movie);
     }
-
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    setIsFavorited(!isFavorited);
   };
 
   useEffect(() => {
@@ -133,18 +127,18 @@ function MovieDetails() {
       >
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative z-10 p-10 max-w-4xl text-white">
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4">
+          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold mb-4">
             {movie.title}
           </h1>
-          <p className="text-xs sm:text-sm md:text-base lg:text-lg opacity-90 mb-4">
+          <p className="text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg opacity-90 mb-4">
             {movie.overview}
           </p>
-          <p className="text-blue-400 mb-2">
+          <p className="text-blue-400 mb-2 text-xs sm:text-xs md:text-sm">
             {movie.genres && movie.genres.length > 0
               ? movie.genres.map((genre) => genre.name).join(", ")
               : "No genre info"}
           </p>
-          <p className="text-xs sm:text-sm opacity-70">
+          <p className="text-xs opacity-70 sm:text-xs md:text-sm">
             Release date: {movie.release_date}
           </p>
         </div>
@@ -196,16 +190,21 @@ function MovieDetails() {
           <div className="flex justify-center">
             <button
               onClick={toggleFavorite}
+              disabled={loading}
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                isFavorited
+                movie && isFavorite(movie.id)
                   ? "bg-red-600 hover:bg-red-700 text-white"
                   : "bg-gray-700 hover:bg-gray-600 text-white"
-              }`}
+              } ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               <FaHeart
-                className={isFavorited ? "text-white" : "text-gray-400"}
+                className={
+                  movie && isFavorite(movie.id) ? "text-white" : "text-gray-400"
+                }
               />
-              {isFavorited ? "Remove from Favorite" : "Add to Favorite"}
+              {movie && isFavorite(movie.id)
+                ? "Remove from Favorite"
+                : "Add to Favorite"}
             </button>
           </div>
         </div>

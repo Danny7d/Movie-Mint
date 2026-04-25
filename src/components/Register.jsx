@@ -72,7 +72,7 @@ function Register() {
       console.log("Registration data:", { email, user, pwd });
       console.log("Calling signUpNewUser...");
 
-      const result = await signUpNewUser(email, pwd);
+      const result = await signUpNewUser(email, pwd, user);
       console.log("Registration result:", result);
 
       if (!result.success) {

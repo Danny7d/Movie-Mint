@@ -1,19 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
+import { useFavorites } from "../context/FavoritesContext";
 
 function FavMovies() {
-  const [favorites, setFavorites] = useState([]);
-
-  useEffect(() => {
-    const storedFavs = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(storedFavs);
-  }, []);
+  const { favorites, removeFromFavorites, loading } = useFavorites();
 
   const removeFavMovie = (id) => {
-    const updated = favorites.filter((movie) => movie.id !== id);
-    setFavorites(updated);
-    localStorage.setItem("favorites", JSON.stringify(updated));
+    removeFromFavorites(id);
   };
 
   return (
@@ -25,14 +19,29 @@ function FavMovies() {
           </h1>
         </div>
 
-        {favorites.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-16">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-800 rounded-full mb-4">
+              <div className="w-10 h-10 border-4 border-gray-600 border-t-purple-500 rounded-full animate-spin"></div>
+            </div>
+            <h2 className="text-2xl font-semibold text-gray-400 mb-2">
+              Loading favorites...
+            </h2>
+          </div>
+        ) : favorites.length === 0 ? (
           <div className="text-center py-16">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-800 rounded-full mb-4">
               <svg
                 className="w-10 h-10 text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
-              ></svg>
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </div>
             <h2 className="text-2xl font-semibold text-gray-400 mb-2">
               No favorites yet

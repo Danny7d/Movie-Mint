@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
+import UserProfile from "./UserProfile";
 
 function AuthButtons() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -102,12 +103,7 @@ function AuthButtons() {
               Favorites
             </Link>
             {session ? (
-              <button
-                onClick={handleLogoutClick}
-                className="w-full px-6 py-3 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 font-medium text-center"
-              >
-                Logout
-              </button>
+              <UserProfile />
             ) : (
               <>
                 <Link
@@ -141,12 +137,7 @@ function AuthButtons() {
           Favorites
         </Link>
         {session ? (
-          <button
-            onClick={handleLogoutClick}
-            className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 font-medium"
-          >
-            Logout
-          </button>
+          <UserProfile />
         ) : (
           <>
             <Link
