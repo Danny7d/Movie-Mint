@@ -133,14 +133,18 @@ function MovieDetails() {
       >
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative z-10 p-10 max-w-4xl text-white">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{movie.title}</h1>
-          <p className="text-lg opacity-90 mb-4">{movie.overview}</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4">
+            {movie.title}
+          </h1>
+          <p className="text-xs sm:text-sm md:text-base lg:text-lg opacity-90 mb-4">
+            {movie.overview}
+          </p>
           <p className="text-blue-400 mb-2">
             {movie.genres && movie.genres.length > 0
               ? movie.genres.map((genre) => genre.name).join(", ")
               : "No genre info"}
           </p>
-          <p className="text-sm opacity-70">
+          <p className="text-xs sm:text-sm opacity-70">
             Release date: {movie.release_date}
           </p>
         </div>
