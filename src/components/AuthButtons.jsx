@@ -8,11 +8,6 @@ function AuthButtons() {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const { session, signOut } = UserAuth();
 
-  const handleLogoutClick = () => {
-    setShowLogoutDialog(true);
-    setIsMenuOpen(false);
-  };
-
   const confirmLogout = () => {
     signOut();
     setShowLogoutDialog(false);
@@ -24,36 +19,38 @@ function AuthButtons() {
 
   return (
     <>
-      <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="sm:hidden fixed top-4 right-4 p-2 bg-gray-800 rounded-lg text-white hover:bg-gray-700 transition-colors"
-        aria-label="Toggle menu"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {/* Mobile menu toggle - only show for logged out users */}
+      {!session && (
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="sm:hidden fixed top-4 right-4 p-2 bg-gray-800 rounded-lg text-white hover:bg-gray-700 transition-colors"
+          aria-label="Toggle menu"
         >
-          {isMenuOpen ? (
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          ) : (
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
               d="M4 6h16M4 12h16M4 18h16"
             />
-          )}
-        </svg>
-      </button>
+          </svg>
+        </button>
+      )}
 
-      {isMenuOpen && (
+      {/* UserProfile for logged-in users - always visible */}
+      {session && (
+        <div className="sm:hidden fixed top-4 right-4 z-50">
+          <UserProfile />
+        </div>
+      )}
+
+      {/* Mobile menu - only show for logged out users */}
+      {isMenuOpen && !session && (
         <div className="sm:hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[110] flex flex-col items-center justify-center">
           <button
             onClick={() => setIsMenuOpen(false)}
@@ -102,26 +99,20 @@ function AuthButtons() {
               </svg>
               Favorites
             </Link>
-            {session ? (
-              <UserProfile />
-            ) : (
-              <>
-                <Link
-                  to="/Login"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="w-full px-6 py-3 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium text-center"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/Register"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="w-full px-6 py-3 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium text-center"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
+            <Link
+              to="/Login"
+              onClick={() => setIsMenuOpen(false)}
+              className="w-full px-6 py-3 text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200 font-medium text-center"
+            >
+              Login
+            </Link>
+            <Link
+              to="/Register"
+              onClick={() => setIsMenuOpen(false)}
+              className="w-full px-6 py-3 text-white bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors duration-200 font-medium text-center"
+            >
+              Sign Up
+            </Link>
           </div>
         </div>
       )}

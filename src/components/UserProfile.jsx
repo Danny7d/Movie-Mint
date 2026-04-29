@@ -10,9 +10,11 @@ import {
   FaEdit,
   FaCheck,
   FaTimes,
+  FaStar,
 } from "react-icons/fa";
 import { UserAuth } from "../context/AuthContext";
 import { useFavorites } from "../context/FavoritesContext";
+import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import "./UserProfile.css";
 
@@ -117,7 +119,6 @@ function UserProfile() {
         </div>
         <div className="user-info-compact">
           <span className="user-name">{userName}</span>
-          <span className="user-email">{userEmail}</span>
         </div>
         {isExpanded ? (
           <FaChevronUp className="dropdown-icon" />
@@ -221,6 +222,14 @@ function UserProfile() {
           </div>
 
           <div className="user-actions">
+            <Link
+              to="/favs"
+              onClick={() => setIsExpanded(false)}
+              className="favorites-link"
+            >
+              <FaStar className="favorites-icon" />
+              My Favorites
+            </Link>
             <button onClick={handleSignOut} className="logout-button">
               Sign Out
             </button>
