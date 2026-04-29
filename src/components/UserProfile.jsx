@@ -1,19 +1,11 @@
 import { useState } from "react";
 import {
-  FaHeart,
-  FaCalendar,
-  FaFilm,
-  FaUser,
-  FaEnvelope,
-  FaChevronDown,
-  FaChevronUp,
-  FaEdit,
-  FaCheck,
-  FaTimes,
-  FaStar,
+  FaHeart, FaCalendar, FaFilm, FaUser, FaBookmark, FaEye,
+  FaChevronDown, FaChevronUp, FaEdit, FaCheck, FaTimes, FaStar, FaSearch,
 } from "react-icons/fa";
 import { UserAuth } from "../context/AuthContext";
 import { useFavorites } from "../context/FavoritesContext";
+import { useWatchlist } from "../context/WatchlistContext";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import "./UserProfile.css";
@@ -21,6 +13,7 @@ import "./UserProfile.css";
 function UserProfile() {
   const { session, signOut } = UserAuth();
   const { favorites, isLoggedIn } = useFavorites();
+  const { watchlistCount, watchedCount } = useWatchlist();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [newUsername, setNewUsername] = useState("");
@@ -33,17 +26,10 @@ function UserProfile() {
 
   const user = session.user;
   const favoriteCount = favorites.length;
-
-  // Get user metadata - only use real username, no email fallback
   const userName = user.user_metadata?.username || "Username not set";
   const userEmail = user.email;
   const createdAt = new Date(user.created_at).toLocaleDateString();
 
-  // Debug: Log user metadata to console
-  console.log("User metadata:", user.user_metadata);
-  console.log("Username from metadata:", userName);
-
-  // Username validation regex (same as Register component)
   const USER_REGEX = /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
 
   const startEditingUsername = () => {
@@ -59,8 +45,6 @@ function UserProfile() {
   };
 
   const saveUsername = async () => {
-    console.log("Attempting to save username:", newUsername);
-
     if (!USER_REGEX.test(newUsername)) {
       setUsernameError(
         "4 to 24 characters. Must begin with a letter. Letters, numbers, underscores allowed.",
@@ -71,32 +55,25 @@ function UserProfile() {
     setIsUpdating(true);
 
     try {
-      console.log(
-        "Calling supabase.auth.updateUser with username:",
-        newUsername,
-      );
-      console.log("Current user session:", session);
-
       const { data, error } = await supabase.auth.updateUser({
         data: { username: newUsername },
       });
 
-      console.log("Update response:", { data, error });
-
       if (error) {
-        console.error("Full error object:", error);
         setUsernameError(`Error: ${error.message || "Unknown error occurred"}`);
       } else {
-        console.log("Username update successful!");
-        console.log("Updated user data:", data);
+        // Also update user_profiles table
+        await supabase
+          .from("user_profiles")
+          .update({ username: newUsername, updated_at: new Date().toISOString() })
+          .eq("user_id", user.id);
+
         setIsEditingUsername(false);
         setUsernameError("");
         setNewUsername("");
-        // Force a session refresh to get updated metadata
         window.location.reload();
       }
     } catch (error) {
-      console.error("Unexpected error updating username:", error);
       setUsernameError(`Unexpected error: ${error.message || "Unknown error"}`);
     } finally {
       setIsUpdating(false);
@@ -178,7 +155,6 @@ function UserProfile() {
               {usernameError && (
                 <p className="username-error">{usernameError}</p>
               )}
-              <p className="login-info"> Login uses email, not username</p>
             </div>
           </div>
 
@@ -195,33 +171,35 @@ function UserProfile() {
 
             <div className="stat-item">
               <div className="stat-icon">
-                <FaCalendar />
+                <FaBookmark />
               </div>
               <div className="stat-info">
-                <div className="stat-number">
-                  {Math.ceil(
-                    (Date.now() - new Date(user.created_at)) /
-                      (1000 * 60 * 60 * 24),
-                  )}
-                </div>
-                <div className="stat-label">Days Active</div>
+                <div className="stat-number">{watchlistCount}</div>
+                <div className="stat-label">Watchlist</div>
               </div>
             </div>
 
             <div className="stat-item">
               <div className="stat-icon">
-                <FaFilm />
+                <FaEye />
               </div>
               <div className="stat-info">
-                <div className="stat-number">
-                  {Math.max(1, Math.floor(favoriteCount * 1.5))}
-                </div>
-                <div className="stat-label">Movies Viewed</div>
+                <div className="stat-number">{watchedCount}</div>
+                <div className="stat-label">Watched</div>
               </div>
             </div>
           </div>
 
           <div className="user-actions">
+            <Link
+              to="/profile"
+              onClick={() => setIsExpanded(false)}
+              className="favorites-link"
+              style={{ background: "linear-gradient(135deg, #7c3aed, #6d28d9)" }}
+            >
+              <FaUser className="favorites-icon" />
+              My Profile
+            </Link>
             <Link
               to="/favs"
               onClick={() => setIsExpanded(false)}
@@ -229,6 +207,33 @@ function UserProfile() {
             >
               <FaStar className="favorites-icon" />
               My Favorites
+            </Link>
+            <Link
+              to="/watchlist"
+              onClick={() => setIsExpanded(false)}
+              className="favorites-link"
+              style={{ background: "linear-gradient(135deg, #2563eb, #3b82f6)" }}
+            >
+              <FaBookmark className="favorites-icon" />
+              My Watchlist
+            </Link>
+            <Link
+              to="/genres"
+              onClick={() => setIsExpanded(false)}
+              className="favorites-link"
+              style={{ background: "linear-gradient(135deg, #059669, #10b981)" }}
+            >
+              <FaFilm className="favorites-icon" />
+              Browse Genres
+            </Link>
+            <Link
+              to="/search"
+              onClick={() => setIsExpanded(false)}
+              className="favorites-link"
+              style={{ background: "linear-gradient(135deg, #d97706, #f59e0b)" }}
+            >
+              <FaSearch className="favorites-icon" />
+              Advanced Search
             </Link>
             <button onClick={handleSignOut} className="logout-button">
               Sign Out

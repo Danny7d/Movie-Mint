@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import Searchbar from "./components/Searchbar";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -12,6 +12,11 @@ import FavMovies from "./components/FavMovies";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import CheckEmail from "./components/CheckEmail";
+import AdvancedSearch from "./components/AdvancedSearch";
+import GenreBrowse from "./components/GenreBrowse";
+import WatchlistPage from "./components/WatchlistPage";
+import ProfilePage from "./components/ProfilePage";
+import Recommendations from "./components/Recommendations";
 import "./App.css";
 
 // Error Boundary Component
@@ -63,12 +68,12 @@ function Home() {
       <Background />
       <Trending />
       <Popular />
+      <Recommendations />
     </>
   );
 }
 
 function App() {
-  // Check if environment variables are loaded
   const tmdbKey = import.meta.env.VITE_TMDB_API_KEY;
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   const supabaseKey = import.meta.env.VITE_SUPABASE_API_KEY;
@@ -83,7 +88,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="bg-black min-h-screen flex flex-col">
+      <div className="app-container bg-black min-h-screen flex flex-col">
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[100] text-center sm:left-4 sm:transform-none md:left-4 md:transform-none lg:left-4 xl:left-4 sm:text-left md:text-left pointer-events-auto mb-72 lg:mb-0">
           <Link
             to="/"
@@ -102,9 +107,14 @@ function App() {
         </div>
         <main className="flex-grow">
           <Routes>
-            <Route path="/favs" element={<FavMovies />} />
             <Route path="/" element={<Home />} />
             <Route path="/movie/:id" element={<MovieDetails />} />
+            <Route path="/favs" element={<FavMovies />} />
+            <Route path="/search" element={<AdvancedSearch />} />
+            <Route path="/genres" element={<GenreBrowse />} />
+            <Route path="/genres/:genreId" element={<GenreBrowse />} />
+            <Route path="/watchlist" element={<WatchlistPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/Register" element={<Register />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/check-email" element={<CheckEmail />} />

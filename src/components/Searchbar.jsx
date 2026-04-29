@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaSlidersH } from "react-icons/fa";
 import "../App.css";
 import FavoriteIcon from "./FavoriteIcon";
 
@@ -58,25 +58,34 @@ function Searchbar() {
 
   return (
     <div>
-      <div className="relative flex justify-center mb-5">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              searchMovies();
-            }
-          }}
-          placeholder="Search"
-          className="w-full md:w-96 justify-center p-2 pr-10 border-2 border-gray-500 focus:border-blue-600 focus:outline-none rounded-md bg-transparent text-white"
-        />
-        <button
-          className="relative right-9 top-1/2 p-1 text-blue-300 hover:text-blue-700"
-          onClick={searchMovies}
+      <div className="relative flex justify-center items-center mb-5 gap-2">
+        <div className="relative flex items-center">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                searchMovies();
+              }
+            }}
+            placeholder="Search"
+            className="w-full md:w-96 justify-center p-2 pr-10 border-2 border-gray-500 focus:border-blue-600 focus:outline-none rounded-md bg-transparent text-white"
+          />
+          <button
+            className="relative right-9 top-0 p-1 text-blue-300 hover:text-blue-700"
+            onClick={searchMovies}
+          >
+            <FaSearch />
+          </button>
+        </div>
+        <Link
+          to="/search"
+          className="p-2.5 bg-gray-800/60 hover:bg-gray-700 border border-gray-600 rounded-lg text-purple-400 hover:text-purple-300 transition-all duration-300"
+          title="Advanced Search"
         >
-          <FaSearch />
-        </button>
+          <FaSlidersH />
+        </Link>
       </div>
 
       {hasSearched && results.length > 0 ? (

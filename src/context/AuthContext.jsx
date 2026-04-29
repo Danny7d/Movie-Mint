@@ -1,7 +1,5 @@
-import { createContext, useEffect, useState, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
 const AuthContext = createContext();
 
@@ -10,10 +8,6 @@ export const AuthContextProvider = ({ children }) => {
 
   // Sign up
   const signUpNewUser = async (email, password, username) => {
-    console.log("Attempting to sign up user:", email);
-    console.log("Username:", username);
-    console.log("Supabase URL:", supabaseUrl);
-
     try {
       const { data, error } = await supabase.auth.signUp({
         email: email,
@@ -26,16 +20,29 @@ export const AuthContextProvider = ({ children }) => {
         },
       });
 
-      console.log("Supabase response:", { data, error });
-
       if (error) {
         console.error("Supabase signup error:", error);
         return { success: false, error };
       }
 
+      // Create user profile in user_profiles table
+      if (data.user) {
+        const { error: profileError } = await supabase
+          .from("user_profiles")
+          .upsert({
+            user_id: data.user.id,
+            username: username,
+            email: email,
+            updated_at: new Date().toISOString(),
+          });
+
+        if (profileError) {
+          console.error("Error creating user profile:", profileError);
+        }
+      }
+
       // Check if user needs email confirmation
       if (data.user && !data.user.email_confirmed_at) {
-        console.log("User registered but needs email confirmation");
         return {
           success: true,
           data,
@@ -44,7 +51,6 @@ export const AuthContextProvider = ({ children }) => {
         };
       }
 
-      console.log("Signup successful:", data);
       return { success: true, data };
     } catch (err) {
       console.error("Unexpected error during signup:", err);
@@ -54,31 +60,50 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log("Current session:", session?.user?.email);
       setSession(session);
 
       supabase.auth.onAuthStateChange((_event, session) => {
-        console.log("Auth state changed:", session?.user?.email);
         setSession(session);
       });
     });
   }, []);
 
-  // Sign in
+  // Sign in — supports both email and username
   const signIn = async (emailOrUsername, password) => {
     try {
-      // Try to sign in with the input as email first
+      let loginEmail = emailOrUsername;
+
+      // Check if input looks like an email
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrUsername);
+
+      if (!isEmail) {
+        // Input is a username — look up the email from user_profiles
+        const { data: profile, error: lookupError } = await supabase
+          .from("user_profiles")
+          .select("email")
+          .eq("username", emailOrUsername)
+          .maybeSingle();
+
+        if (lookupError || !profile) {
+          return {
+            success: false,
+            error: { message: "Username not found. Please check and try again." },
+          };
+        }
+
+        loginEmail = profile.email;
+      }
+
+      // Authenticate with the resolved email
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: emailOrUsername,
+        email: loginEmail,
         password: password,
       });
 
       if (error) {
-        console.error("Sign in error:", error);
         return { success: false, error };
       }
 
-      console.log("Sign in successful:", data);
       return { success: true, data };
     } catch (err) {
       console.error("Unexpected error during sign in:", err);
@@ -90,16 +115,8 @@ export const AuthContextProvider = ({ children }) => {
   const signOut = () => {
     const { error } = supabase.auth.signOut();
     if (error) {
-      console.error("There was a problem signing out error.", error);
+      console.error("There was a problem signing out.", error);
     }
-  };
-
-  // Clear test session
-  const clearTestSession = async () => {
-    await supabase.auth.signOut();
-    // Clear any local storage data
-    localStorage.clear();
-    console.log("Test session cleared");
   };
 
   return (

@@ -1,8 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaBookmark, FaCheck, FaClock } from "react-icons/fa";
 import { useFavorites } from "../context/FavoritesContext";
+import { useWatchlist } from "../context/WatchlistContext";
+import MovieReviews from "./MovieReviews";
+import SimilarMovies from "./SimilarMovies";
+import ShareMovie from "./ShareMovie";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const OMDB_KEY = import.meta.env.VITE_OMDB_API_KEY;
@@ -17,9 +21,16 @@ function MovieDetails() {
 
   const { addToFavorites, removeFromFavorites, isFavorite, loading } =
     useFavorites();
+  const {
+    addToWatchlist,
+    removeFromWatchlist,
+    isInWatchlist,
+    isWatched,
+    markAsWatched,
+    unmarkAsWatched,
+  } = useWatchlist();
 
   useEffect(() => {
-    // Reset page title when component unmounts
     return () => {
       document.title = "MovieMint - Discover Movies";
     };
@@ -27,7 +38,6 @@ function MovieDetails() {
 
   const toggleFavorite = () => {
     if (!movie) return;
-
     if (isFavorite(movie.id)) {
       removeFromFavorites(movie.id);
     } else {
@@ -35,22 +45,37 @@ function MovieDetails() {
     }
   };
 
+  const toggleWatchlist = () => {
+    if (!movie) return;
+    if (isInWatchlist(movie.id)) {
+      removeFromWatchlist(movie.id);
+    } else {
+      addToWatchlist(movie);
+    }
+  };
+
+  const toggleWatched = () => {
+    if (!movie) return;
+    if (isWatched(movie.id)) {
+      unmarkAsWatched(movie.id);
+    } else {
+      markAsWatched(movie.id);
+    }
+  };
+
   useEffect(() => {
     async function fetchMovie() {
       try {
-        //TMDB Movie
         const res = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}`,
           { params: { api_key: API_KEY } },
         );
 
-        //TMDB Credits
         const creditsRes = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}/credits`,
           { params: { api_key: API_KEY } },
         );
 
-        // TMDB Videos
         const videosRes = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}/videos`,
           { params: { api_key: API_KEY } },
@@ -65,12 +90,10 @@ function MovieDetails() {
         setMovie(res.data);
         setCast(creditsRes.data.cast);
 
-        // Update page title dynamically
         if (res.data.title) {
           document.title = `${res.data.title} - MovieMint`;
         }
 
-        //Fetch ratings directly from OMDb
         if (res.data.imdb_id) {
           try {
             const omdbRes = await axios.get("https://www.omdbapi.com/", {
@@ -80,7 +103,6 @@ function MovieDetails() {
               },
             });
 
-            //IMDb, Rotten Tomatoes, Metacritic
             const imdb = omdbRes.data.imdbRating
               ? `${omdbRes.data.imdbRating}/10`
               : null;
@@ -104,6 +126,8 @@ function MovieDetails() {
     }
 
     fetchMovie();
+    // Scroll to top when movie changes
+    window.scrollTo(0, 0);
   }, [id]);
 
   useEffect(() => {
@@ -150,9 +174,11 @@ function MovieDetails() {
               ? movie.genres.map((genre) => genre.name).join(", ")
               : "No genre info"}
           </p>
-          <p className="text-xs opacity-70 sm:text-xs md:text-sm">
+          <p className="text-xs opacity-70 sm:text-xs md:text-sm mb-4">
             Release date: {movie.release_date}
           </p>
+          {/* Share Button */}
+          <ShareMovie movie={movie} />
         </div>
       </div>
 
@@ -196,14 +222,15 @@ function MovieDetails() {
         </div>
       )}
 
-      {/* Favorite Button Section */}
+      {/* Action Buttons Section */}
       <div className="flex justify-center items-center px-10 mb-6">
         <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700 shadow-2xl w-full max-w-2xl">
-          <div className="flex justify-center">
+          <div className="flex flex-wrap justify-center gap-3">
+            {/* Favorite Button */}
             <button
               onClick={toggleFavorite}
               disabled={loading}
-              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+              className={`flex items-center gap-2 px-5 py-3 rounded-lg font-medium transition-all duration-300 ${
                 movie && isFavorite(movie.id)
                   ? "bg-red-600 hover:bg-red-700 text-white"
                   : "bg-gray-700 hover:bg-gray-600 text-white"
@@ -215,9 +242,48 @@ function MovieDetails() {
                 }
               />
               {movie && isFavorite(movie.id)
-                ? "Remove from Favorite"
+                ? "Remove Favorite"
                 : "Add to Favorite"}
             </button>
+
+            {/* Watchlist Button */}
+            <button
+              onClick={toggleWatchlist}
+              className={`flex items-center gap-2 px-5 py-3 rounded-lg font-medium transition-all duration-300 ${
+                isInWatchlist(movie.id)
+                  ? "bg-blue-600 hover:bg-blue-700 text-white"
+                  : "bg-gray-700 hover:bg-gray-600 text-white"
+              }`}
+            >
+              <FaBookmark
+                className={
+                  isInWatchlist(movie.id) ? "text-white" : "text-gray-400"
+                }
+              />
+              {isInWatchlist(movie.id) ? "In Watchlist" : "Add to Watchlist"}
+            </button>
+
+            {/* Watched Toggle */}
+            {isInWatchlist(movie.id) && (
+              <button
+                onClick={toggleWatched}
+                className={`flex items-center gap-2 px-5 py-3 rounded-lg font-medium transition-all duration-300 ${
+                  isWatched(movie.id)
+                    ? "bg-green-600 hover:bg-green-700 text-white"
+                    : "bg-gray-700 hover:bg-gray-600 text-white"
+                }`}
+              >
+                {isWatched(movie.id) ? (
+                  <>
+                    <FaCheck className="text-white" /> Watched
+                  </>
+                ) : (
+                  <>
+                    <FaClock className="text-gray-400" /> Mark Watched
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -254,28 +320,35 @@ function MovieDetails() {
               <p className="text-xs opacity-70">{actor.character}</p>
             </div>
           ))}
-
-          {showTrailer && (
-            <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-              <div className="relative w-full max-w-3xl aspect-video">
-                <iframe
-                  className="w-full h-full rounded"
-                  src={`https://www.youtube.com/embed/${trailerKey}`}
-                  title="Movie Trailer"
-                  allowFullScreen
-                ></iframe>
-
-                <button
-                  className="absolute -top-10 right-0 text-white text-xl"
-                  onClick={() => setShowTrailer(false)}
-                >
-                  ✕ Close
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
+
+      {/* User Reviews Section */}
+      <MovieReviews movieId={id} />
+
+      {/* Similar Movies Section */}
+      <SimilarMovies movieId={id} />
+
+      {/* Trailer Modal */}
+      {showTrailer && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="relative w-full max-w-3xl aspect-video">
+            <iframe
+              className="w-full h-full rounded"
+              src={`https://www.youtube.com/embed/${trailerKey}`}
+              title="Movie Trailer"
+              allowFullScreen
+            ></iframe>
+
+            <button
+              className="absolute -top-10 right-0 text-white text-xl"
+              onClick={() => setShowTrailer(false)}
+            >
+              ✕ Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

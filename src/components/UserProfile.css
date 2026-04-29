@@ -17,6 +17,16 @@
   max-width: 160px;
 }
 
+/* Desktop: Make profile button wider */
+@media (min-width: 640px) {
+  .user-profile-button {
+    min-width: 200px;
+    max-width: 220px;
+    padding: 8px 12px;
+    gap: 12px;
+  }
+}
+
 .user-profile-button:hover {
   background: linear-gradient(135deg, #374151, #4b5563);
   border-color: #6b7280;

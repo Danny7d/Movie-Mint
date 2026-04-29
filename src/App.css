@@ -5,6 +5,59 @@
   padding: 0;
 }
 
+/* ========== Theme Variables ========== */
+:root {
+  --bg-primary: #000000;
+  --bg-secondary: #111827;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --text-primary: #ffffff;
+  --text-secondary: #d1d5db;
+  --text-muted: #6b7280;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --accent-purple: #7c3aed;
+  --accent-pink: #ec4899;
+  --accent-red: #ef4444;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(0, 0, 0, 0.03);
+  --bg-card-hover: rgba(0, 0, 0, 0.06);
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Apply theme to app container */
+[data-theme="light"] .app-container,
+[data-theme="light"] .bg-black {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="light"] .text-white {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .text-gray-400,
+[data-theme="light"] .text-gray-300 {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .bg-gray-800,
+[data-theme="light"] .bg-gray-900 {
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .border-gray-700,
+[data-theme="light"] .border-gray-600 {
+  border-color: var(--border-color) !important;
+}
+
+/* ========== Base Styles ========== */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -20,9 +73,9 @@
 
 .auth-buttons {
   display: flex;
-  gap: 10px; /* space between buttons */
-  justify-content: flex-end; /* align to right */
-  margin: 10px 0; /* vertical spacing */
+  gap: 10px;
+  justify-content: flex-end;
+  margin: 10px 0;
 }
 
 .gradient-text {
@@ -57,4 +110,14 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* ========== Utility Animations ========== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease;
 }

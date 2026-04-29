@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { UserAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import UserProfile from "./UserProfile";
+import NotificationBell from "./NotificationBell";
 
 function AuthButtons() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const { session, signOut } = UserAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const confirmLogout = () => {
     signOut();
@@ -42,9 +46,10 @@ function AuthButtons() {
         </button>
       )}
 
-      {/* UserProfile for logged-in users - always visible */}
+      {/* UserProfile for logged-in users - mobile */}
       {session && (
-        <div className="sm:hidden fixed top-4 right-4 z-50">
+        <div className="sm:hidden fixed top-4 right-4 z-50 flex items-center gap-2">
+          <NotificationBell />
           <UserProfile />
         </div>
       )}
@@ -90,14 +95,25 @@ function AuthButtons() {
 
           <div className="flex flex-col gap-4 w-full px-8">
             <Link
+              to="/genres"
+              onClick={() => setIsMenuOpen(false)}
+              className="w-full px-6 py-3 text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-lg transition-all duration-200 font-medium text-center flex items-center justify-center gap-2"
+            >
+              🎬 Browse Genres
+            </Link>
+            <Link
+              to="/search"
+              onClick={() => setIsMenuOpen(false)}
+              className="w-full px-6 py-3 text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 rounded-lg transition-all duration-200 font-medium text-center flex items-center justify-center gap-2"
+            >
+              🔍 Advanced Search
+            </Link>
+            <Link
               to="/favs"
               onClick={() => setIsMenuOpen(false)}
-              className="w-full px-6 py-3 text-white bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg transition-all duration-200 font-medium text-center flex items-center justify-center gap-2 mb-48"
+              className="w-full px-6 py-3 text-white bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg transition-all duration-200 font-medium text-center flex items-center justify-center gap-2 mb-12"
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M3.172 5.172a4 4 0 015.656 0L9 10.343l.172.171a4 4 0 015.656 0l4 4a4 4 0 01.528 0L19 8.343V4a2 2 0 00-2-2H7a2 2 0 00-2 2v4.343a4 4 0 01.528 0l4-4z" />
-              </svg>
-              Favorites
+              ❤️ Favorites
             </Link>
             <Link
               to="/Login"
@@ -117,18 +133,21 @@ function AuthButtons() {
         </div>
       )}
 
-      <div className="hidden sm:flex top-4 left-4 gap-4 z-[100] mt-2">
-        <Link
-          to="/favs"
-          className="px-4 py-2 text-white bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg transition-all duration-200 font-medium flex items-center gap-2"
+      <div className="hidden sm:flex top-4 left-4 gap-3 z-[100] mt-2 items-center">
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700 text-yellow-400 transition-all duration-300 border border-gray-700"
+          title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
         >
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M3.172 5.172a4 4 0 015.656 0L9 10.343l.172.171a4 4 0 015.656 0l4 4a4 4 0 01.528 0L19 8.343V4a2 2 0 00-2-2H7a2 2 0 00-2 2v4.343a4 4 0 01.528 0l4-4z" />
-          </svg>
-          Favorites
-        </Link>
+          {theme === "dark" ? <FaSun /> : <FaMoon />}
+        </button>
+
         {session ? (
-          <UserProfile />
+          <>
+            <NotificationBell />
+            <UserProfile />
+          </>
         ) : (
           <>
             <Link

@@ -245,3 +245,34 @@
 .form-group:nth-child(4) {
   animation-delay: 0.4s;
 }
+
+/* Username availability styles */
+.username-available {
+  color: #27ae60;
+  font-size: 0.8rem;
+  margin: 2px 0 0 0;
+  font-weight: 500;
+}
+
+.username-taken {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin: 2px 0 0 0;
+  font-weight: 500;
+}
+
+.checking-icon {
+  font-size: 1rem;
+  animation: pulse 1s infinite;
+}
+
+.validation-icon-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

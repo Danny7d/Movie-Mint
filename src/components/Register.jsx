@@ -1,19 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
-import { FaCheck, FaTimes, FaUser, FaLock } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 import { UserAuth } from "../context/AuthContext";
+import { useUserProfile } from "../context/UserProfileContext";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const USER_REGEX = /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%<>]).{8,24}$/;
 
 function Register() {
-  const emialRef = useRef();
-  const userRef = useRef();
-  const errRef = useRef();
-  const pwdRef = useRef();
+  const emailRef = useRef();
   const navigate = useNavigate();
+  const { session, signUpNewUser } = UserAuth();
+  const { checkUsernameAvailability } = useUserProfile();
 
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
@@ -22,6 +22,8 @@ function Register() {
   const [user, setUser] = useState("");
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
+  const [usernameAvailable, setUsernameAvailable] = useState(null);
+  const [checkingUsername, setCheckingUsername] = useState(false);
 
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
@@ -32,10 +34,9 @@ function Register() {
   const [matchFocus, setMatchFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    emialRef.current.focus();
+    emailRef.current.focus();
   }, []);
 
   useEffect(() => {
@@ -44,10 +45,25 @@ function Register() {
 
   useEffect(() => {
     const result = USER_REGEX.test(user);
-    console.log(result);
-    console.log(user);
     setValidName(result);
   }, [user]);
+
+  // Debounced username availability check
+  useEffect(() => {
+    if (!validName || user.length < 5) {
+      setUsernameAvailable(null);
+      return;
+    }
+
+    setCheckingUsername(true);
+    const timer = setTimeout(async () => {
+      const result = await checkUsernameAvailability(user);
+      setUsernameAvailable(result.available);
+      setCheckingUsername(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [user, validName, checkUsernameAvailability]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
@@ -68,41 +84,34 @@ function Register() {
       return;
     }
 
-    try {
-      console.log("Registration data:", { email, user, pwd });
-      console.log("Calling signUpNewUser...");
+    if (usernameAvailable === false) {
+      setErrMsg("Username is already taken. Please choose another.");
+      return;
+    }
 
+    try {
       const result = await signUpNewUser(email, pwd, user);
-      console.log("Registration result:", result);
 
       if (!result.success) {
-        console.error("Registration failed:", result.error);
         setErrMsg(result.error?.message || "Registration Failed");
         return;
       }
 
-      console.log("Registration successful!");
       setEmail("");
       setUser("");
       setPwd("");
       setMatchPwd("");
-
-      // Redirect to CheckEmail page
       navigate("/check-email");
     } catch (error) {
-      console.error("Registration failed with error:", error);
       setErrMsg(error.message || "Registration Failed");
     }
   };
-
-  const { session, signUpNewUser } = UserAuth();
-  console.log(session);
 
   return (
     <div className="register-container">
       <section className="register-section">
         <p
-          ref={errRef}
+          ref={null}
           className={errMsg ? "errmsg" : "offscreen"}
           aria-live="assertive"
         >
@@ -127,7 +136,7 @@ function Register() {
 
             <input
               type="email"
-              ref={emialRef}
+              ref={emailRef}
               id="email"
               className="form-input"
               value={email}
@@ -149,23 +158,27 @@ function Register() {
 
             <label htmlFor="username" className="form-label">
               <span>Username</span>
-              <span className={validName ? "valid validation-icon" : "hide"}>
-                <FaCheck />
-              </span>
-              <span
-                className={
-                  validName || !user ? "hide" : "invalid validation-icon"
-                }
-              >
-                <FaTimes />
+              <span className="validation-icon-group">
+                {checkingUsername && (
+                  <span className="checking-icon">⏳</span>
+                )}
+                {validName && usernameAvailable === true && !checkingUsername && (
+                  <span className="valid validation-icon"><FaCheck /></span>
+                )}
+                {validName && usernameAvailable === false && !checkingUsername && (
+                  <span className="invalid validation-icon"><FaTimes /></span>
+                )}
+                {!validName && user && (
+                  <span className="invalid validation-icon"><FaTimes /></span>
+                )}
               </span>
             </label>
             <input
               type="text"
               id="username"
-              ref={userRef}
               autoComplete="off"
               onChange={(e) => setUser(e.target.value)}
+              value={user}
               required
               aria-invalid={validName ? "false" : "true"}
               aria-describedby="uidnote"
@@ -173,6 +186,12 @@ function Register() {
               onBlur={() => setUserFocus(false)}
               className="form-input"
             />
+            {validName && usernameAvailable === true && !checkingUsername && (
+              <p className="username-available">✓ Username is available</p>
+            )}
+            {validName && usernameAvailable === false && !checkingUsername && (
+              <p className="username-taken">✗ Username is already taken</p>
+            )}
             <p
               id="uidnote"
               className={
@@ -183,7 +202,7 @@ function Register() {
               <br />
               Must begin with a letter.
               <br />
-              Letters, numbers, underscores, hyphens allowed.
+              Letters, numbers, underscores allowed.
             </p>
           </div>
 
@@ -204,9 +223,9 @@ function Register() {
             <input
               type="password"
               id="password"
-              ref={pwdRef}
               autoComplete="off"
               onChange={(e) => setPwd(e.target.value)}
+              value={pwd}
               required
               aria-invalid={validPwd ? "false" : "true"}
               aria-describedby="pwdnote"
@@ -249,6 +268,7 @@ function Register() {
               type="password"
               id="confirm_pwd"
               onChange={(e) => setMatchPwd(e.target.value)}
+              value={matchPwd}
               required
               aria-invalid={validMatch ? "false" : "true"}
               aria-describedby="confirmnote"
@@ -267,7 +287,14 @@ function Register() {
           </div>
 
           <button
-            disabled={!validName || !validPwd || !validMatch || !validEmail}
+            disabled={
+              !validName ||
+              !validPwd ||
+              !validMatch ||
+              !validEmail ||
+              usernameAvailable === false ||
+              checkingUsername
+            }
             className="submit-button"
           >
             Sign Up
